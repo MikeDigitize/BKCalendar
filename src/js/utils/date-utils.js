@@ -1,4 +1,6 @@
-export function getFullDate(y, m, d = 0) {
+import "whatwg-fetch/fetch";
+
+export function getFullDate(y, m, d = 1) {
     return new Date(y, m, d, 12, 0);
 }
 
@@ -32,13 +34,17 @@ export function logDays(y, m) {
     }
 }
 
-
-
 export function getCurrentDate() {
     let currentDate = new Date();
     let month = getMonth(currentDate);
     let year = getYear(currentDate);
     let date = getDate(currentDate);
-    logDays(year, month);
     return { date, month, year };
+}
+
+export function getEvents(year) {
+    return fetch(`/js/events/event-config-${year}.json`)
+        .then(response => {
+            return response.json()
+        });
 }
