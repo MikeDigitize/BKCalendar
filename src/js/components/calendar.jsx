@@ -22,9 +22,9 @@ export default class Calendar extends Component {
         return listItems;
     }
 
-    static getDateListItemClass(index, currentDate) {
+    static getDateListItemClass(index, currentDate, firstDayOfMonthIndex) {
         let noClass;
-        if(index < currentDate - 1) {
+        if(index < (currentDate - 1) + firstDayOfMonthIndex) {
             return "date-passed";
         }
         else {
@@ -34,6 +34,10 @@ export default class Calendar extends Component {
 
     static getDateListContent(index, firstDayOfMonthIndex) {
         return index < firstDayOfMonthIndex ? false : (index + 1) - firstDayOfMonthIndex;
+    }
+
+    static createList(listItems) {
+        console.log("listitems: ", listItems.length,  Math.round(listItems.length / 7));
     }
 
     createDates() {
@@ -47,11 +51,11 @@ export default class Calendar extends Component {
         for(let i = 0; i < daysInMonth + firstDayOfMonthIndex; i++) {
             listItems.push(<li
                 key={ "date" + i }
-                className={ Calendar.getDateListItemClass(i, currentDate )}>
+                className={ Calendar.getDateListItemClass(i, currentDate, firstDayOfMonthIndex)}>
                     { Calendar.getDateListContent(i, firstDayOfMonthIndex) }
             </li>);
         }
-
+        Calendar.createList(listItems);
         return listItems;
     }
 

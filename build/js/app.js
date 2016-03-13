@@ -19733,11 +19733,11 @@
 	                    "li",
 	                    {
 	                        key: "date" + i,
-	                        className: Calendar.getDateListItemClass(i, currentDate) },
+	                        className: Calendar.getDateListItemClass(i, currentDate, firstDayOfMonthIndex) },
 	                    Calendar.getDateListContent(i, firstDayOfMonthIndex)
 	                ));
 	            }
-
+	            Calendar.createList(listItems);
 	            return listItems;
 	        }
 	    }, {
@@ -19771,9 +19771,9 @@
 	        }
 	    }, {
 	        key: "getDateListItemClass",
-	        value: function getDateListItemClass(index, currentDate) {
+	        value: function getDateListItemClass(index, currentDate, firstDayOfMonthIndex) {
 	            var noClass = void 0;
-	            if (index < currentDate - 1) {
+	            if (index < currentDate - 1 + firstDayOfMonthIndex) {
 	                return "date-passed";
 	            } else {
 	                return noClass;
@@ -19783,6 +19783,11 @@
 	        key: "getDateListContent",
 	        value: function getDateListContent(index, firstDayOfMonthIndex) {
 	            return index < firstDayOfMonthIndex ? false : index + 1 - firstDayOfMonthIndex;
+	        }
+	    }, {
+	        key: "createList",
+	        value: function createList(listItems) {
+	            console.log("listitems: ", listItems.length, Math.round(listItems.length / 7));
 	        }
 	    }]);
 
