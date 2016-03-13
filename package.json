@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start" : "node index.js"
+    "start": "parallelshell \"node index.js\" \"webpack\""
   },
   "author": "",
   "license": "ISC",
@@ -24,6 +24,7 @@
   },
   "dependencies": {
     "express": "^4.13.4",
+    "parallelshell": "^2.0.0",
     "socket.io": "^1.4.5"
   }
 }

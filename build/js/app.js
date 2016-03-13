@@ -19708,7 +19708,7 @@
 	            currentMonth: _calendarStore2.default.getState().calendarData.currentMonth,
 	            currentYear: _calendarStore2.default.getState().calendarData.currentYear
 	        };
-	        (0, _dateUtils.getEvents)("2016").then(function (data) {
+	        (0, _dateUtils.getEvents)(_this.state.currentYear).then(function (data) {
 	            return console.log(data);
 	        });
 	        return _this;
@@ -19728,12 +19728,12 @@
 	            var firstDayOfMonthIndex = (0, _dateUtils.getDayIndex)((0, _dateUtils.getFullDate)(currentYear, currentMonth, 1));
 	            var listItems = [];
 
-	            for (var i = 0; i < daysInMonth; i++) {
+	            for (var i = 0; i < daysInMonth + firstDayOfMonthIndex; i++) {
 	                listItems.push(_react2.default.createElement(
 	                    "li",
 	                    {
 	                        key: "date" + i,
-	                        className: Calendar.getDateListItemClass(i, firstDayOfMonthIndex, currentDayIndex) },
+	                        className: Calendar.getDateListItemClass(i, currentDate) },
 	                    Calendar.getDateListContent(i, firstDayOfMonthIndex)
 	                ));
 	            }
@@ -19771,17 +19771,18 @@
 	        }
 	    }, {
 	        key: "getDateListItemClass",
-	        value: function getDateListItemClass(index, firstDayOfMonthIndex, currentDayIndex) {
-	            if (index < firstDayOfMonthIndex || index < currentDayIndex) {
+	        value: function getDateListItemClass(index, currentDate) {
+	            var noClass = void 0;
+	            if (index < currentDate - 1) {
 	                return "date-passed";
 	            } else {
-	                return false;
+	                return noClass;
 	            }
 	        }
 	    }, {
 	        key: "getDateListContent",
 	        value: function getDateListContent(index, firstDayOfMonthIndex) {
-	            return index < firstDayOfMonthIndex ? false : index + 1;
+	            return index < firstDayOfMonthIndex ? false : index + 1 - firstDayOfMonthIndex;
 	        }
 	    }]);
 

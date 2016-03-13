@@ -11,7 +11,7 @@ export default class Calendar extends Component {
             currentMonth : CalendarStore.getState().calendarData.currentMonth,
             currentYear : CalendarStore.getState().calendarData.currentYear
         };
-        getEvents("2016").then(data => console.log(data));
+        getEvents(this.state.currentYear).then(data => console.log(data));
     }
 
     static createHeader() {
@@ -22,17 +22,18 @@ export default class Calendar extends Component {
         return listItems;
     }
 
-    static getDateListItemClass(index, firstDayOfMonthIndex, currentDayIndex) {
-        if(index < firstDayOfMonthIndex || index < currentDayIndex) {
+    static getDateListItemClass(index, currentDate) {
+        let noClass;
+        if(index < currentDate - 1) {
             return "date-passed";
         }
         else {
-            return false;
+            return noClass;
         }
     }
 
     static getDateListContent(index, firstDayOfMonthIndex) {
-        return index < firstDayOfMonthIndex ? false : index + 1;
+        return index < firstDayOfMonthIndex ? false : (index + 1) - firstDayOfMonthIndex;
     }
 
     createDates() {
@@ -43,16 +44,15 @@ export default class Calendar extends Component {
         let firstDayOfMonthIndex = getDayIndex(getFullDate(currentYear, currentMonth, 1));
         let listItems = [];
 
-        for(let i = 0; i < daysInMonth; i++) {
+        for(let i = 0; i < daysInMonth + firstDayOfMonthIndex; i++) {
             listItems.push(<li
                 key={ "date" + i }
-                className={ Calendar.getDateListItemClass(i, firstDayOfMonthIndex, currentDayIndex )}>
+                className={ Calendar.getDateListItemClass(i, currentDate )}>
                     { Calendar.getDateListContent(i, firstDayOfMonthIndex) }
             </li>);
         }
 
         return listItems;
-
     }
 
     render() {
