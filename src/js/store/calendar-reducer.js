@@ -1,7 +1,13 @@
 import { getCurrentDate as now } from "../utils/date-utils";
 
-let initialState = { currentDate : now().date, currentMonth : now().month, currentYear : now().year };
-console.log(initialState);
+let initialState = {
+    currentDate : now().date,
+    currentMonth : now().month,
+    currentYear : now().year,
+    earliestDate : now().date,
+    earliestMonth : now().month,
+    earliestYear : now().year
+};
 
 export default function calendarData(state = initialState, action = {}) {
     switch(action.type) {
