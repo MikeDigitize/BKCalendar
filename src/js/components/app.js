@@ -4,4 +4,4 @@ import Calendar from "./calendar";
 
 import "../temp";
 
-ReactDOM.render(<Calendar />, document.getElementById("test"));
+ReactDOM.render(<Calendar />, document.getElementById("calendar-app"));

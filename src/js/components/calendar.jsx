@@ -19,7 +19,7 @@ export default class Calendar extends Component {
         for(; i < days.length; i++) {
             listItems.push(<li key={ "day" + i }> { days[i] } </li>)
         }
-        return listItems;
+        return <ul className="weeks"> { listItems } </ul>;
     }
 
     static getDateListItemClass(index, currentDate, firstDayOfMonthIndex) {
@@ -36,15 +36,9 @@ export default class Calendar extends Component {
         return index < firstDayOfMonthIndex ? false : (index + 1) - firstDayOfMonthIndex;
     }
 
-    static createList(listItems) {
-        console.log("listitems: ", listItems.length,  Math.round(listItems.length / 7));
-    }
-
     createDates() {
         let { currentDate, currentMonth, currentYear } = this.state;
-        let date = getFullDate(currentYear, currentMonth, currentDate);
         let daysInMonth = getDaysInMonths(currentYear, currentMonth);
-        let currentDayIndex = getDayIndex(date);
         let firstDayOfMonthIndex = getDayIndex(getFullDate(currentYear, currentMonth, 1));
         let listItems = [];
         let lists = [];
@@ -59,26 +53,16 @@ export default class Calendar extends Component {
         }
 
         for (let i = 0, len = listItems.length; i < len; i += 7) {
-            lists.push(<ul className="dates"> { listItems.slice(i, i + 7) } </ul>);
+            lists.push(<ul className="dates" key={ "dates" + i * 7 }> { listItems.slice(i, i + 7) } </ul>);
         }
-
-        //if(i > 0 && i % 7 === 0) {
-        //    console.log(i);
-        //    lists.push(<ul className="dates">{ listItems } </ul>);
-        //    listItems = [];
-        //}
-        //else {
-        //    console.log("not", i)
-        //}
-        //if(i === totalDays - 1 && totalDays % 7 !== 0) {
-        //    lists.push(<ul className="dates">{ listItems } </ul>);
-        //}
 
         return lists;
     }
 
     render() {
-        return <div> { this.createDates() } </div>
+        return (
+            <div> { Calendar.createHeader() } { this.createDates() } </div>
+        );
     }
 
 }

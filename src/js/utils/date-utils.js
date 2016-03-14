@@ -1,4 +1,5 @@
 import "whatwg-fetch/fetch";
+import Promise from "es6-promise";
 
 export function getFullDate(y, m, d = 1) {
     return new Date(y, m, d, 12, 0);
