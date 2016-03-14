@@ -47,21 +47,38 @@ export default class Calendar extends Component {
         let currentDayIndex = getDayIndex(date);
         let firstDayOfMonthIndex = getDayIndex(getFullDate(currentYear, currentMonth, 1));
         let listItems = [];
+        let lists = [];
+        let totalDays = daysInMonth + firstDayOfMonthIndex;
 
-        for(let i = 0; i < daysInMonth + firstDayOfMonthIndex; i++) {
+        for(let i = 0; i < totalDays; i++) {
             listItems.push(<li
                 key={ "date" + i }
                 className={ Calendar.getDateListItemClass(i, currentDate, firstDayOfMonthIndex)}>
                     { Calendar.getDateListContent(i, firstDayOfMonthIndex) }
             </li>);
         }
-        Calendar.createList(listItems);
-        return listItems;
+
+        for (let i = 0, len = listItems.length; i < len; i += 7) {
+            lists.push(<ul className="dates"> { listItems.slice(i, i + 7) } </ul>);
+        }
+
+        //if(i > 0 && i % 7 === 0) {
+        //    console.log(i);
+        //    lists.push(<ul className="dates">{ listItems } </ul>);
+        //    listItems = [];
+        //}
+        //else {
+        //    console.log("not", i)
+        //}
+        //if(i === totalDays - 1 && totalDays % 7 !== 0) {
+        //    lists.push(<ul className="dates">{ listItems } </ul>);
+        //}
+
+        return lists;
     }
 
     render() {
-        this.createDates();
-        return <ul> { this.createDates() } </ul>
+        return <div> { this.createDates() } </div>
     }
 
 }

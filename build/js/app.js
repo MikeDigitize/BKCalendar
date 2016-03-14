@@ -19727,8 +19727,10 @@
 	            var currentDayIndex = (0, _dateUtils.getDayIndex)(date);
 	            var firstDayOfMonthIndex = (0, _dateUtils.getDayIndex)((0, _dateUtils.getFullDate)(currentYear, currentMonth, 1));
 	            var listItems = [];
+	            var lists = [];
+	            var totalDays = daysInMonth + firstDayOfMonthIndex;
 
-	            for (var i = 0; i < daysInMonth + firstDayOfMonthIndex; i++) {
+	            for (var i = 0; i < totalDays; i++) {
 	                listItems.push(_react2.default.createElement(
 	                    "li",
 	                    {
@@ -19737,15 +19739,36 @@
 	                    Calendar.getDateListContent(i, firstDayOfMonthIndex)
 	                ));
 	            }
-	            Calendar.createList(listItems);
-	            return listItems;
+
+	            for (var _i = 0, len = listItems.length; _i < len; _i += 7) {
+	                lists.push(_react2.default.createElement(
+	                    "ul",
+	                    { className: "dates" },
+	                    " ",
+	                    listItems.slice(_i, _i + 7),
+	                    " "
+	                ));
+	            }
+
+	            //if(i > 0 && i % 7 === 0) {
+	            //    console.log(i);
+	            //    lists.push(<ul className="dates">{ listItems } </ul>);
+	            //    listItems = [];
+	            //}
+	            //else {
+	            //    console.log("not", i)
+	            //}
+	            //if(i === totalDays - 1 && totalDays % 7 !== 0) {
+	            //    lists.push(<ul className="dates">{ listItems } </ul>);
+	            //}
+
+	            return lists;
 	        }
 	    }, {
 	        key: "render",
 	        value: function render() {
-	            this.createDates();
 	            return _react2.default.createElement(
-	                "ul",
+	                "div",
 	                null,
 	                " ",
 	                this.createDates(),
