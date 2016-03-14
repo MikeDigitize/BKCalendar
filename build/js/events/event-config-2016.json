@@ -1,1 +1,18 @@
-{"test":"data"}
+[
+  {
+    "January": {
+      "rugby": [],
+      "football": [
+        {
+          "date": "17",
+          "time": "19:45 - 21:45",
+          "event": "Man Utd vs Liverpool",
+          "venue": "Old Trafford",
+          "competition": "Europa League"
+        }
+      ],
+      "cricket": [],
+      "horse-racing": []
+    }
+  }
+]

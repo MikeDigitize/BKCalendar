@@ -4,20 +4,19 @@ let initialState = {
     currentDate : now().date,
     currentMonth : now().month,
     currentYear : now().year,
+    currentEvent : "football",
     earliestDate : now().date,
     earliestMonth : now().month,
-    earliestYear : now().year
+    earliestYear : now().year,
+    events : []
 };
 
 export default function calendarData(state = initialState, action = {}) {
     switch(action.type) {
-        case "INCREMENTCLICKCOUNT" :
+        case "NEWYEARLYEVENTDATA" :
+            console.log("new data");
             return Object.assign({}, state, {
-                clickCount : ++state.clickCount
-            });
-        case "TOGGLEDISPLAY" :
-            return Object.assign({}, state, {
-                clickCount : ++state.clickCount
+                events : action.state
             });
         default :
             return state;

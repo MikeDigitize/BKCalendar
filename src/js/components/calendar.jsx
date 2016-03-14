@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import CalendarStore from "../store/calendar-store";
 import { getDate, getFullDate, getDaysInMonths, getDayIndex, getEvents } from "../utils/date-utils";
+import { yearlyEventData } from "../actions/calendar-actions";
 
 export default class Calendar extends Component {
 
@@ -9,9 +10,25 @@ export default class Calendar extends Component {
         this.state = {
             currentDate : CalendarStore.getState().calendarData.currentDate,
             currentMonth : CalendarStore.getState().calendarData.currentMonth,
-            currentYear : CalendarStore.getState().calendarData.currentYear
+            currentYear : CalendarStore.getState().calendarData.currentYear,
+            currentEvent : CalendarStore.getState().calendarData.currentEvent,
+            unsubscribe : CalendarStore.subscribe(this.onStoreUpdate.bind(this)),
+            events : []
         };
-        getEvents(this.state.currentYear).then(data => console.log(data));
+        getEvents(this.state.currentYear).then(data => CalendarStore.dispatch(yearlyEventData(data)));
+    }
+
+    componentWillUnmount() {
+        this.state.unsubscribe();
+    }
+
+    onStoreUpdate() {
+        this.setState({
+            currentDate : CalendarStore.getState().calendarData.currentDate,
+            currentMonth : CalendarStore.getState().calendarData.currentMonth,
+            currentYear : CalendarStore.getState().calendarData.currentYear,
+            events : CalendarStore.getState().calendarData.events
+        });
     }
 
     static createHeader() {
