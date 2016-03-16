@@ -58,7 +58,7 @@
 
 	var _calendar2 = _interopRequireDefault(_calendar);
 
-	__webpack_require__(180);
+	__webpack_require__(181);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -19689,6 +19689,8 @@
 
 	var _calendarActions = __webpack_require__(179);
 
+	var _domUtils = __webpack_require__(180);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -19709,6 +19711,7 @@
 	            currentDate: _calendarStore2.default.getState().calendarData.currentDate,
 	            currentMonth: _calendarStore2.default.getState().calendarData.currentMonth,
 	            currentYear: _calendarStore2.default.getState().calendarData.currentYear,
+	            currentEvent: _calendarStore2.default.getState().calendarData.currentEvent,
 	            unsubscribe: _calendarStore2.default.subscribe(_this.onStoreUpdate.bind(_this)),
 	            events: []
 	        };
@@ -19726,11 +19729,61 @@
 	    }, {
 	        key: "onStoreUpdate",
 	        value: function onStoreUpdate() {
+	            var _CalendarStore$getSta = _calendarStore2.default.getState().calendarData;
+
+	            var currentDate = _CalendarStore$getSta.currentDate;
+	            var currentMonth = _CalendarStore$getSta.currentMonth;
+	            var currentYear = _CalendarStore$getSta.currentYear;
+	            var eventData = _CalendarStore$getSta.eventData;
+	            var currentEvent = _CalendarStore$getSta.currentEvent;
+
 	            this.setState({
-	                currentDate: _calendarStore2.default.getState().calendarData.currentDate,
-	                currentMonth: _calendarStore2.default.getState().calendarData.currentMonth,
-	                currentYear: _calendarStore2.default.getState().calendarData.currentYear,
-	                events: _calendarStore2.default.getState().calendarData.events
+	                currentDate: currentDate,
+	                currentMonth: currentMonth,
+	                currentYear: currentYear,
+	                currentEvent: currentEvent,
+	                events: eventData[currentMonth].events[currentEvent]
+	            });
+	        }
+	    }, {
+	        key: "createListItem",
+	        value: function createListItem(index, currentDate, firstDayOfMonthIndex) {
+	            var time = void 0,
+	                name = void 0,
+	                iconClass = void 0,
+	                eventClass = void 0;
+	            if (this.state.events.length) {
+	                var event = this.hasEvent(index);
+	                if (event.length && currentDate <= index - 1) {
+	                    var details = event.pop();
+	                    time = details.time;
+	                    name = details.event;
+	                    iconClass = "bullet-event";
+	                    eventClass = "date-event";
+	                }
+	            }
+	            var classes = (0, _domUtils.classNames)({
+	                "date-passed": Calendar.getDateListItemClass(index, currentDate, firstDayOfMonthIndex),
+	                "date-event": !!eventClass
+	            });
+
+	            return _react2.default.createElement(
+	                "li",
+	                {
+	                    key: "date" + index,
+	                    "data-time": time,
+	                    "data-event": name,
+	                    className: classes },
+	                _react2.default.createElement("i", { className: iconClass }),
+	                " ",
+	                Calendar.getDateListContent(index, firstDayOfMonthIndex)
+	            );
+	        }
+	    }, {
+	        key: "hasEvent",
+	        value: function hasEvent(index) {
+	            return this.state.events.filter(function (event) {
+	                return index === parseInt(event.date) + 1;
 	            });
 	        }
 	    }, {
@@ -19748,13 +19801,7 @@
 	            var totalDays = daysInMonth + firstDayOfMonthIndex;
 
 	            for (var i = 0; i < totalDays; i++) {
-	                listItems.push(_react2.default.createElement(
-	                    "li",
-	                    {
-	                        key: "date" + i,
-	                        className: Calendar.getDateListItemClass(i, currentDate, firstDayOfMonthIndex) },
-	                    Calendar.getDateListContent(i, firstDayOfMonthIndex)
-	                ));
+	                listItems.push(this.createListItem(i, currentDate, firstDayOfMonthIndex));
 	            }
 
 	            for (var _i = 0, len = listItems.length; _i < len; _i += 7) {
@@ -19808,12 +19855,7 @@
 	    }, {
 	        key: "getDateListItemClass",
 	        value: function getDateListItemClass(index, currentDate, firstDayOfMonthIndex) {
-	            var noClass = void 0;
-	            if (index < currentDate - 1 + firstDayOfMonthIndex) {
-	                return "date-passed";
-	            } else {
-	                return noClass;
-	            }
+	            return index < currentDate - 1 + firstDayOfMonthIndex;
 	        }
 	    }, {
 	        key: "getDateListContent",
@@ -20620,7 +20662,7 @@
 	    earliestDate: (0, _dateUtils.getCurrentDate)().date,
 	    earliestMonth: (0, _dateUtils.getCurrentDate)().month,
 	    earliestYear: (0, _dateUtils.getCurrentDate)().year,
-	    events: []
+	    eventData: []
 	};
 
 	function calendarData() {
@@ -20629,9 +20671,8 @@
 
 	    switch (action.type) {
 	        case "NEWYEARLYEVENTDATA":
-	            console.log("new data");
 	            return Object.assign({}, state, {
-	                events: action.state
+	                eventData: action.state
 	            });
 	        default:
 	            return state;
@@ -21116,7 +21157,7 @@
 /* 175 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var __WEBPACK_AMD_DEFINE_RESULT__;var require;/* WEBPACK VAR INJECTION */(function(process, global, module) {/*!
+	var require;var __WEBPACK_AMD_DEFINE_RESULT__;/* WEBPACK VAR INJECTION */(function(process, global, module) {/*!
 	 * @overview es6-promise - a tiny implementation of Promises/A+.
 	 * @copyright Copyright (c) 2014 Yehuda Katz, Tom Dale, Stefan Penner and contributors (Conversion to ES6 API by Jake Archibald)
 	 * @license   Licensed under MIT license
@@ -22120,11 +22161,50 @@
 
 /***/ },
 /* 180 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
+
+	exports.classNames = classNames;
+	function classNames() {
+	    var hasOwn = {}.hasOwnProperty;
+	    var classes = [];
+
+	    for (var i = 0; i < arguments.length; i++) {
+	        var arg = arguments[i];
+	        if (!arg) continue;
+
+	        var argType = typeof arg === 'undefined' ? 'undefined' : _typeof(arg);
+
+	        if (argType === 'string' || argType === 'number') {
+	            classes.push(arg);
+	        } else if (Array.isArray(arg)) {
+	            classes.push(classNames.apply(null, arg));
+	        } else if (argType === 'object') {
+	            for (var key in arg) {
+	                if (hasOwn.call(arg, key) && arg[key]) {
+	                    classes.push(key);
+	                }
+	            }
+	        }
+	    }
+
+	    return classes.join(' ');
+	}
+
+/***/ },
+/* 181 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 
-	var _jquery = __webpack_require__(181);
+	var _jquery = __webpack_require__(182);
 
 	var _jquery2 = _interopRequireDefault(_jquery);
 
@@ -22164,7 +22244,7 @@
 	}
 
 /***/ },
-/* 181 */
+/* 182 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!

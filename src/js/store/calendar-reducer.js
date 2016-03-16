@@ -8,15 +8,14 @@ let initialState = {
     earliestDate : now().date,
     earliestMonth : now().month,
     earliestYear : now().year,
-    events : []
+    eventData : []
 };
 
 export default function calendarData(state = initialState, action = {}) {
     switch(action.type) {
         case "NEWYEARLYEVENTDATA" :
-            console.log("new data");
             return Object.assign({}, state, {
-                events : action.state
+                eventData : action.state
             });
         default :
             return state;

@@ -24,7 +24,7 @@ $(".icon").click(function() {
 
 function createEventTip() {
     var eventTip = $("<span class='eventTip' />");
-    var eventTime = $("<p class='eventTime' />")
+    var eventTime = $("<p class='eventTime' />");
     var eventDescribe = $("<p class='eventTime' />");
     $(eventDescribe).text($(this).attr("data-event"));
     $(eventTime).text($(this).attr("data-time"));
