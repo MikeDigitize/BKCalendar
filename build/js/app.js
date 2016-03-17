@@ -19746,12 +19746,19 @@
 	            });
 	        }
 	    }, {
+	        key: "onDateClick",
+	        value: function onDateClick(evt) {
+	            console.log((0, _domUtils.getElementPosition)(evt.target || evt.srcElement));
+	        }
+	    }, {
 	        key: "createListItem",
 	        value: function createListItem(index, currentDate, firstDayOfMonthIndex) {
 	            var time = void 0,
 	                name = void 0,
 	                iconClass = void 0,
-	                eventClass = void 0;
+	                eventClass = void 0,
+	                eventHandler = void 0;
+
 	            if (this.state.events.length) {
 	                var event = this.hasEvent(index);
 	                if (event.length && currentDate <= index - 1) {
@@ -19760,8 +19767,10 @@
 	                    name = details.event;
 	                    iconClass = "bullet-event";
 	                    eventClass = "date-event";
+	                    eventHandler = this.onDateClick.bind(this);
 	                }
 	            }
+
 	            var classes = (0, _domUtils.classNames)({
 	                "date-passed": Calendar.getDateListItemClass(index, currentDate, firstDayOfMonthIndex),
 	                "date-event": !!eventClass
@@ -19773,7 +19782,8 @@
 	                    key: "date" + index,
 	                    "data-time": time,
 	                    "data-event": name,
-	                    className: classes },
+	                    className: classes,
+	                    onClick: eventHandler },
 	                _react2.default.createElement("i", { className: iconClass }),
 	                " ",
 	                Calendar.getDateListContent(index, firstDayOfMonthIndex)
@@ -21157,7 +21167,7 @@
 /* 175 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var require;var __WEBPACK_AMD_DEFINE_RESULT__;/* WEBPACK VAR INJECTION */(function(process, global, module) {/*!
+	var __WEBPACK_AMD_DEFINE_RESULT__;var require;/* WEBPACK VAR INJECTION */(function(process, global, module) {/*!
 	 * @overview es6-promise - a tiny implementation of Promises/A+.
 	 * @copyright Copyright (c) 2014 Yehuda Katz, Tom Dale, Stefan Penner and contributors (Conversion to ES6 API by Jake Archibald)
 	 * @license   Licensed under MIT license
@@ -22172,6 +22182,10 @@
 	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
 
 	exports.classNames = classNames;
+	exports.getElementPosition = getElementPosition;
+	exports.getElement = getElement;
+	exports.getPositionToWindow = getPositionToWindow;
+	exports.getWindowPosition = getWindowPosition;
 	function classNames() {
 	    var hasOwn = {}.hasOwnProperty;
 	    var classes = [];
@@ -22196,6 +22210,37 @@
 	    }
 
 	    return classes.join(' ');
+	}
+
+	function getElementPosition(selector) {
+
+	    var element = getElement(selector);
+	    var elX = getPositionToWindow(element).left;
+	    var elY = getPositionToWindow(element).top;
+
+	    return { elX: elX, elY: elY };
+	}
+
+	function getElement(element) {
+	    return element instanceof HTMLElement ? element : document.querySelector(element);
+	}
+
+	function getPositionToWindow(element) {
+
+	    var pos = element.getBoundingClientRect();
+	    var winPos = getWindowPosition();
+	    var top = pos.top + winPos.winY;
+	    var left = pos.left + winPos.winX;
+
+	    return { top: top, left: left };
+	}
+
+	function getWindowPosition() {
+
+	    var winX = window.scrollX || window.pageXOffset;
+	    var winY = window.scrollY || window.pageYOffset;
+
+	    return { winX: winX, winY: winY };
 	}
 
 /***/ },

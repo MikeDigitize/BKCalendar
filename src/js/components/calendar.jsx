@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import CalendarStore from "../store/calendar-store";
 import { getDate, getFullDate, getDaysInMonths, getDayIndex, getEvents } from "../utils/date-utils";
 import { yearlyEventData } from "../actions/calendar-actions";
-import { classNames } from "../utils/dom-utils";
+import { classNames, getElementPosition } from "../utils/dom-utils";
 
 export default class Calendar extends Component {
 
@@ -34,6 +34,10 @@ export default class Calendar extends Component {
         });
     }
 
+    onDateClick(evt) {
+        console.log(getElementPosition(evt.target || evt.srcElement));
+    }
+
     static createHeader() {
         let days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"], i = 0, listItems = [];
         for(; i < days.length; i++) {
@@ -51,7 +55,8 @@ export default class Calendar extends Component {
     }
 
     createListItem(index, currentDate, firstDayOfMonthIndex) {
-        let time, name, iconClass, eventClass;
+        let time, name, iconClass, eventClass, eventHandler;
+
         if(this.state.events.length) {
             let event = this.hasEvent(index);
             if(event.length && currentDate <= index - 1) {
@@ -60,8 +65,10 @@ export default class Calendar extends Component {
                 name = details.event;
                 iconClass = "bullet-event";
                 eventClass = "date-event";
+                eventHandler = this.onDateClick.bind(this);
             }
         }
+
         let classes = classNames({
             "date-passed" : Calendar.getDateListItemClass(index, currentDate, firstDayOfMonthIndex),
             "date-event" : !!eventClass
@@ -71,7 +78,8 @@ export default class Calendar extends Component {
             key={ "date" + index }
             data-time={ time }
             data-event={ name }
-            className={ classes }>
+            className={ classes }
+            onClick={ eventHandler }>
             <i className={ iconClass }></i> { Calendar.getDateListContent(index, firstDayOfMonthIndex) }
         </li>);
     }

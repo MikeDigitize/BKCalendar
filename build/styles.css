@@ -14,6 +14,10 @@ html {
     -webkit-user-select: none;
 }
 
+#calendar-app {
+    position: relative;
+}
+
 time {
     color: white;
     text-transform: uppercase;
@@ -116,7 +120,7 @@ section li {
     color: #bababa;
 }
 
-.eventTip {
+.event-tip {
     position: absolute;
     width: 150px;
     left: 50%;
@@ -129,10 +133,10 @@ section li {
     opacity: 0;
     transition: opacity 0.3s ease-out;
 }
-.eventTip.show {
+.event-tip.show {
     opacity: 1;
 }
-.eventTip:before {
+.event-tip:before {
     content: "▾";
     position: absolute;
     font-size: 52px;
