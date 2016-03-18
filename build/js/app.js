@@ -19753,7 +19753,13 @@
 	    }, {
 	        key: "onDateClick",
 	        value: function onDateClick(evt) {
-	            console.log((0, _domUtils.getElementPosition)(evt.target || evt.srcElement));
+	            var target = Calendar.getSelectedEventListItem(evt);
+	            var position = (0, _domUtils.getElementPositionToContainer)("#calendar-app", target);
+	            this.setState({
+	                selectedEventTime: target.getAttribute("data-time"),
+	                selectedEventDesc: target.getAttribute("data-event"),
+	                eventTipPos: { left: position.x + "px", top: position.y + "px" }
+	            });
 	        }
 	    }, {
 	        key: "createListItem",
@@ -19847,6 +19853,17 @@
 	            );
 	        }
 	    }], [{
+	        key: "getSelectedEventListItem",
+	        value: function getSelectedEventListItem(evt) {
+	            var target = evt.target || evt.srcElement;
+	            var data = target.getAttribute("data-time");
+	            while (!data) {
+	                target = target.parentNode;
+	                data = target.getAttribute("data-time");
+	            }
+	            return target;
+	        }
+	    }, {
 	        key: "createHeader",
 	        value: function createHeader() {
 	            var days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
@@ -21174,7 +21191,7 @@
 /* 175 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var __WEBPACK_AMD_DEFINE_RESULT__;var require;/* WEBPACK VAR INJECTION */(function(process, global, module) {/*!
+	var require;var __WEBPACK_AMD_DEFINE_RESULT__;/* WEBPACK VAR INJECTION */(function(process, global, module) {/*!
 	 * @overview es6-promise - a tiny implementation of Promises/A+.
 	 * @copyright Copyright (c) 2014 Yehuda Katz, Tom Dale, Stefan Penner and contributors (Conversion to ES6 API by Jake Archibald)
 	 * @license   Licensed under MIT license
@@ -22189,7 +22206,7 @@
 	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
 
 	exports.classNames = classNames;
-	exports.getElementPosition = getElementPosition;
+	exports.getElementPositionToContainer = getElementPositionToContainer;
 	exports.getElement = getElement;
 	exports.getPositionToWindow = getPositionToWindow;
 	exports.getWindowPosition = getWindowPosition;
@@ -22219,13 +22236,21 @@
 	    return classes.join(' ');
 	}
 
-	function getElementPosition(selector) {
+	function getElementPositionToContainer(container, element) {
 
-	    var element = getElement(selector);
-	    var elX = getPositionToWindow(element).left;
-	    var elY = getPositionToWindow(element).top;
+	    var con = getElement(container);
+	    var el = getElement(element);
 
-	    return { elX: elX, elY: elY };
+	    var conX = getPositionToWindow(con).left;
+	    var conY = getPositionToWindow(con).top;
+
+	    var elX = getPositionToWindow(el).left;
+	    var elY = getPositionToWindow(el).top;
+
+	    var x = elX - conX;
+	    var y = elY - conY;
+
+	    return { x: x, y: y };
 	}
 
 	function getElement(element) {

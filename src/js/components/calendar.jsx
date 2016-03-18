@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import CalendarStore from "../store/calendar-store";
 import { getDate, getFullDate, getDaysInMonths, getDayIndex, getEvents } from "../utils/date-utils";
 import { yearlyEventData } from "../actions/calendar-actions";
-import { classNames, getElementPosition } from "../utils/dom-utils";
+import { classNames, getElementPositionToContainer } from "../utils/dom-utils";
 import { EventTip } from "./event-tip";
 
 export default class Calendar extends Component {
@@ -39,7 +39,23 @@ export default class Calendar extends Component {
     }
 
     onDateClick(evt) {
-        console.log(getElementPosition(evt.target || evt.srcElement));
+        let target = Calendar.getSelectedEventListItem(evt);
+        let position = getElementPositionToContainer("#calendar-app", target);
+        this.setState({
+            selectedEventTime : target.getAttribute("data-time"),
+            selectedEventDesc : target.getAttribute("data-event"),
+            eventTipPos : { left : `${position.x}px`, top : `${position.y}px` }
+        });
+    }
+
+    static getSelectedEventListItem(evt) {
+        let target = evt.target || evt.srcElement;
+        let data = target.getAttribute("data-time");
+        while(!data) {
+            target = target.parentNode;
+            data = target.getAttribute("data-time");
+        }
+        return target;
     }
 
     static createHeader() {

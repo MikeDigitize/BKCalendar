@@ -24,13 +24,21 @@ export function classNames () {
     return classes.join(' ');
 }
 
-export function getElementPosition(selector) {
+export function getElementPositionToContainer(container, element) {
 
-    let element = getElement(selector);
-    let elX = getPositionToWindow(element).left;
-    let elY = getPositionToWindow(element).top;
+    let con = getElement(container);
+    let el = getElement(element);
 
-    return { elX, elY };
+    let conX = getPositionToWindow(con).left;
+    let conY = getPositionToWindow(con).top;
+
+    let elX = getPositionToWindow(el).left;
+    let elY = getPositionToWindow(el).top;
+
+    let x = elX - conX;
+    let y = elY - conY;
+
+    return { x, y}
 
 }
 
