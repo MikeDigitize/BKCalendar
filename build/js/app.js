@@ -58,7 +58,7 @@
 
 	var _calendar2 = _interopRequireDefault(_calendar);
 
-	__webpack_require__(181);
+	__webpack_require__(182);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -19691,6 +19691,8 @@
 
 	var _domUtils = __webpack_require__(180);
 
+	var _eventTip = __webpack_require__(181);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -19713,6 +19715,9 @@
 	            currentYear: _calendarStore2.default.getState().calendarData.currentYear,
 	            currentEvent: _calendarStore2.default.getState().calendarData.currentEvent,
 	            unsubscribe: _calendarStore2.default.subscribe(_this.onStoreUpdate.bind(_this)),
+	            selectedEventTime: "",
+	            selectedEventDesc: "",
+	            eventTipPos: { left: 0, top: 0 },
 	            events: []
 	        };
 	        (0, _dateUtils.getEvents)(_this.state.currentYear).then(function (data) {
@@ -19832,11 +19837,13 @@
 	            return _react2.default.createElement(
 	                "div",
 	                null,
-	                " ",
 	                Calendar.createHeader(),
-	                " ",
 	                this.createDates(),
-	                " "
+	                _react2.default.createElement(_eventTip.EventTip, {
+	                    time: this.state.selectedEventTime,
+	                    desc: this.state.selectedEventDesc,
+	                    position: this.state.eventTipPos
+	                })
 	            );
 	        }
 	    }], [{
@@ -22249,7 +22256,46 @@
 
 	"use strict";
 
-	var _jquery = __webpack_require__(182);
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	exports.EventTip = undefined;
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var EventTip = exports.EventTip = function EventTip(props) {
+	    return _react2.default.createElement(
+	        "span",
+	        { style: props.position, className: "event-tip" },
+	        _react2.default.createElement(
+	            "p",
+	            { className: "event-time" },
+	            props.time
+	        ),
+	        _react2.default.createElement(
+	            "p",
+	            { className: "event-desc" },
+	            props.desc
+	        ),
+	        _react2.default.createElement(
+	            "p",
+	            null,
+	            "Hi kids!!!!"
+	        )
+	    );
+	};
+
+/***/ },
+/* 182 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	var _jquery = __webpack_require__(183);
 
 	var _jquery2 = _interopRequireDefault(_jquery);
 
@@ -22278,9 +22324,9 @@
 	});
 
 	function createEventTip() {
-	    var eventTip = (0, _jquery2.default)("<span class='eventTip' />");
-	    var eventTime = (0, _jquery2.default)("<p class='eventTime' />");
-	    var eventDescribe = (0, _jquery2.default)("<p class='eventTime' />");
+	    var eventTip = (0, _jquery2.default)("<span class='event-tip' />");
+	    var eventTime = (0, _jquery2.default)("<p class='event-time' />");
+	    var eventDescribe = (0, _jquery2.default)("<p class='event-desc' />");
 	    (0, _jquery2.default)(eventDescribe).text((0, _jquery2.default)(this).attr("data-event"));
 	    (0, _jquery2.default)(eventTime).text((0, _jquery2.default)(this).attr("data-time"));
 	    eventTip.append(eventTime);
@@ -22289,7 +22335,7 @@
 	}
 
 /***/ },
-/* 182 */
+/* 183 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!

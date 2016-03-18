@@ -3,6 +3,7 @@ import CalendarStore from "../store/calendar-store";
 import { getDate, getFullDate, getDaysInMonths, getDayIndex, getEvents } from "../utils/date-utils";
 import { yearlyEventData } from "../actions/calendar-actions";
 import { classNames, getElementPosition } from "../utils/dom-utils";
+import { EventTip } from "./event-tip";
 
 export default class Calendar extends Component {
 
@@ -14,6 +15,9 @@ export default class Calendar extends Component {
             currentYear : CalendarStore.getState().calendarData.currentYear,
             currentEvent : CalendarStore.getState().calendarData.currentEvent,
             unsubscribe : CalendarStore.subscribe(this.onStoreUpdate.bind(this)),
+            selectedEventTime : "",
+            selectedEventDesc : "",
+            eventTipPos : { left : 0, top : 0 },
             events : []
         };
         getEvents(this.state.currentYear).then(data => CalendarStore.dispatch(yearlyEventData(data)));
@@ -109,7 +113,15 @@ export default class Calendar extends Component {
 
     render() {
         return (
-            <div> { Calendar.createHeader() } { this.createDates() } </div>
+            <div>
+                { Calendar.createHeader() }
+                { this.createDates() }
+                <EventTip
+                    time={ this.state.selectedEventTime }
+                    desc={ this.state.selectedEventDesc }
+                    position={ this.state.eventTipPos }
+                />
+            </div>
         );
     }
 
