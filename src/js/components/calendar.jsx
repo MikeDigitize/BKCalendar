@@ -4,6 +4,7 @@ import { getDate, getFullDate, getDaysInMonths, getDayIndex, getEvents, days, mo
 import { yearlyEventData, eventSelected, eventClosed } from "../actions/calendar-actions";
 import { classNames, getElementPositionToContainer } from "../utils/dom-utils";
 import { EventTip } from "./event-tip";
+import { Overlay } from "./calendar-overlay";
 
 export default class Calendar extends Component {
 
@@ -150,6 +151,10 @@ export default class Calendar extends Component {
         CalendarStore.dispatch(eventClosed());
     }
 
+    getCalendarHeight() {
+        return { height : `${document.querySelector("#calendar-app").offsetHeight - 30}px` };
+    }
+
     createDates() {
         let { currentDate, currentMonth, currentYear } = this.state;
         let daysInMonth = getDaysInMonths(currentYear, currentMonth);
@@ -185,6 +190,11 @@ export default class Calendar extends Component {
                     venue={ this.state.selectedEventVenue }
                     visible={ this.state.eventInfoVisible }
                     bookEvent={ this.bookEvent.bind(this) }
+                    closeEventTip={ this.closeEventTip.bind(this) }
+                />
+                <Overlay
+                    visible={ this.state.eventInfoVisible }
+                    style={ this.getCalendarHeight() }
                     closeEventTip={ this.closeEventTip.bind(this) }
                 />
             </div>

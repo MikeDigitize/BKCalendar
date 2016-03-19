@@ -64,10 +64,16 @@ header a:hover {
 }
 
 [role="main"] {
-    overflow: hidden;
+    /*overflow: hidden;*/
     padding: 15px;
     background: white;
     font-family: "Helvetica";
+}
+
+[role="main"]:after {
+    content : "";
+    display: table;
+    clear: both;
 }
 
 section ul {
@@ -127,7 +133,7 @@ section li {
     top: 20px;
     background: #249991;
     color: white;
-    z-index: 1;
+    z-index: 2;
     box-shadow: 4px 4px 3px rgba(0,0,0,0.5);
     opacity: 0;
     transition: opacity 0.2s ease-out;
@@ -135,7 +141,7 @@ section li {
     box-sizing: border-box;
     text-align: center;
 }
-.event-tip.show {
+.event-tip.show-tip {
     opacity: 1;
 }
 .event-tip .event-date {
@@ -182,6 +188,20 @@ section li {
     /*bottom: -25px;*/
     /*left: 42%;*/
 /*}*/
+.overlay {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    top:0;
+    left:0;
+    background: rgba(0,0,0,0.8);
+    cursor: pointer;
+    z-index: 1;
+    display: none;
+}
+.overlay.show-overlay {
+    display: block;
+}
 .icon {
     display: inline-block;
     cursor: pointer;

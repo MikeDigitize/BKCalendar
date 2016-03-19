@@ -58,7 +58,7 @@
 
 	var _calendar2 = _interopRequireDefault(_calendar);
 
-	__webpack_require__(182);
+	__webpack_require__(183);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -19693,6 +19693,8 @@
 
 	var _eventTip = __webpack_require__(181);
 
+	var _calendarOverlay = __webpack_require__(182);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -19873,6 +19875,11 @@
 	            _calendarStore2.default.dispatch((0, _calendarActions.eventClosed)());
 	        }
 	    }, {
+	        key: "getCalendarHeight",
+	        value: function getCalendarHeight() {
+	            return { height: document.querySelector("#calendar-app").offsetHeight - 30 + "px" };
+	        }
+	    }, {
 	        key: "createDates",
 	        value: function createDates() {
 	            var _state = this.state;
@@ -19921,6 +19928,11 @@
 	                    venue: this.state.selectedEventVenue,
 	                    visible: this.state.eventInfoVisible,
 	                    bookEvent: this.bookEvent.bind(this),
+	                    closeEventTip: this.closeEventTip.bind(this)
+	                }),
+	                _react2.default.createElement(_calendarOverlay.Overlay, {
+	                    visible: this.state.eventInfoVisible,
+	                    style: this.getCalendarHeight(),
 	                    closeEventTip: this.closeEventTip.bind(this)
 	                })
 	            );
@@ -21274,7 +21286,7 @@
 /* 175 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var require;var __WEBPACK_AMD_DEFINE_RESULT__;/* WEBPACK VAR INJECTION */(function(process, global, module) {/*!
+	var __WEBPACK_AMD_DEFINE_RESULT__;var require;/* WEBPACK VAR INJECTION */(function(process, global, module) {/*!
 	 * @overview es6-promise - a tiny implementation of Promises/A+.
 	 * @copyright Copyright (c) 2014 Yehuda Katz, Tom Dale, Stefan Penner and contributors (Conversion to ES6 API by Jake Archibald)
 	 * @license   Licensed under MIT license
@@ -22396,7 +22408,7 @@
 	var EventTip = exports.EventTip = function EventTip(props) {
 	    return _react2.default.createElement(
 	        "span",
-	        { className: (0, _domUtils.classNames)({ "event-tip": true, "show": props.visible }) },
+	        { className: (0, _domUtils.classNames)({ "event-tip": true, "show-tip": props.visible }) },
 	        _react2.default.createElement(
 	            "p",
 	            { className: "event-date" },
@@ -22436,7 +22448,30 @@
 
 	"use strict";
 
-	var _jquery = __webpack_require__(183);
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	exports.Overlay = undefined;
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _domUtils = __webpack_require__(180);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var Overlay = exports.Overlay = function Overlay(props) {
+	    return _react2.default.createElement("div", { onClick: props.closeEventTip, style: props.style, className: (0, _domUtils.classNames)({ "overlay": true, "show-overlay": props.visible }) });
+	};
+
+/***/ },
+/* 183 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	var _jquery = __webpack_require__(184);
 
 	var _jquery2 = _interopRequireDefault(_jquery);
 
@@ -22476,7 +22511,7 @@
 	}
 
 /***/ },
-/* 183 */
+/* 184 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!

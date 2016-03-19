@@ -2,7 +2,7 @@ import React from "react";
 import { classNames } from "../utils/dom-utils";
 
 export const EventTip = props =>
-    <span className={ classNames({ "event-tip" : true, "show" : props.visible }) }>
+    <span className={ classNames({ "event-tip" : true, "show-tip" : props.visible }) }>
         <p className="event-date">{ props.date }</p>
         <p className="event-desc">{ props.desc }</p>
         <p className="event-venue">{ props.venue }</p>
