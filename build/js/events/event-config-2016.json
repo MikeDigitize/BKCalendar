@@ -7,7 +7,7 @@
         {
           "date": "17",
           "time": "19:45 - 21:45",
-          "event": "Man Utd vs Liverpool",
+          "desc": "Man Utd vs Liverpool",
           "venue": "Old Trafford",
           "competition": "Europa League"
         }
@@ -24,7 +24,7 @@
         {
           "date": "17",
           "time": "19:45 - 21:45",
-          "event": "Man Utd vs Liverpool",
+          "desc": "Man Utd vs Liverpool",
           "venue": "Old Trafford",
           "competition": "Europa League"
         }
@@ -41,21 +41,28 @@
         {
           "date": "16",
           "time": "19:45 - 21:45",
-          "event": "Man Utd vs Liverpool",
+          "desc": "Man Utd vs Liverpool",
           "venue": "Old Trafford",
           "competition": "Europa League"
         },
         {
           "date": "20",
           "time": "12:30 - 14:00",
-          "event": "West ham vs Chelsea",
+          "desc": "West ham vs Chelsea",
           "venue": "Stamford Bridge",
           "competition": "Premiership"
         },
         {
           "date": "5",
           "time": "12:30 - 14:00",
-          "event": "West ham vs Chelsea",
+          "desc": "West ham vs Chelsea",
+          "venue": "Stamford Bridge",
+          "competition": "Premiership"
+        },
+        {
+          "date": "26",
+          "time": "12:30 - 14:00",
+          "desc": "Man Utd vs Liverpool",
           "venue": "Stamford Bridge",
           "competition": "Premiership"
         }
@@ -72,7 +79,7 @@
         {
           "date": "17",
           "time": "19:45 - 21:45",
-          "event": "Man Utd vs Liverpool",
+          "desc": "Man Utd vs Liverpool",
           "venue": "Old Trafford",
           "competition": "Europa League"
         }

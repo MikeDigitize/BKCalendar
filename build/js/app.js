@@ -19709,17 +19709,34 @@
 
 	        var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Calendar).call(this));
 
+	        var _CalendarStore$getSta = _calendarStore2.default.getState().calendarData;
+
+	        var currentDate = _CalendarStore$getSta.currentDate;
+	        var currentMonth = _CalendarStore$getSta.currentMonth;
+	        var currentYear = _CalendarStore$getSta.currentYear;
+	        var eventData = _CalendarStore$getSta.eventData;
+	        var currentEvent = _CalendarStore$getSta.currentEvent;
+	        var selectedEventTime = _CalendarStore$getSta.selectedEventTime;
+	        var selectedEventDesc = _CalendarStore$getSta.selectedEventDesc;
+	        var selectedEventVenue = _CalendarStore$getSta.selectedEventVenue;
+	        var selectedEventShortdate = _CalendarStore$getSta.selectedEventShortdate;
+	        var eventInfoVisible = _CalendarStore$getSta.eventInfoVisible;
+
+
 	        _this.state = {
-	            currentDate: _calendarStore2.default.getState().calendarData.currentDate,
-	            currentMonth: _calendarStore2.default.getState().calendarData.currentMonth,
-	            currentYear: _calendarStore2.default.getState().calendarData.currentYear,
-	            currentEvent: _calendarStore2.default.getState().calendarData.currentEvent,
-	            unsubscribe: _calendarStore2.default.subscribe(_this.onStoreUpdate.bind(_this)),
-	            selectedEventTime: "",
-	            selectedEventDesc: "",
-	            eventTipPos: { left: 0, top: 0 },
-	            events: []
+	            currentDate: currentDate,
+	            currentMonth: currentMonth,
+	            currentYear: currentYear,
+	            events: eventData,
+	            currentEvent: currentEvent,
+	            selectedEventTime: selectedEventTime,
+	            selectedEventDesc: selectedEventDesc,
+	            selectedEventVenue: selectedEventVenue,
+	            selectedEventShortdate: selectedEventShortdate,
+	            eventInfoVisible: eventInfoVisible,
+	            unsubscribe: _calendarStore2.default.subscribe(_this.onStoreUpdate.bind(_this))
 	        };
+
 	        (0, _dateUtils.getEvents)(_this.state.currentYear).then(function (data) {
 	            return _calendarStore2.default.dispatch((0, _calendarActions.yearlyEventData)(data));
 	        });
@@ -19734,48 +19751,84 @@
 	    }, {
 	        key: "onStoreUpdate",
 	        value: function onStoreUpdate() {
-	            var _CalendarStore$getSta = _calendarStore2.default.getState().calendarData;
+	            var _CalendarStore$getSta2 = _calendarStore2.default.getState().calendarData;
 
-	            var currentDate = _CalendarStore$getSta.currentDate;
-	            var currentMonth = _CalendarStore$getSta.currentMonth;
-	            var currentYear = _CalendarStore$getSta.currentYear;
-	            var eventData = _CalendarStore$getSta.eventData;
-	            var currentEvent = _CalendarStore$getSta.currentEvent;
+	            var currentDate = _CalendarStore$getSta2.currentDate;
+	            var currentMonth = _CalendarStore$getSta2.currentMonth;
+	            var currentYear = _CalendarStore$getSta2.currentYear;
+	            var eventData = _CalendarStore$getSta2.eventData;
+	            var currentEvent = _CalendarStore$getSta2.currentEvent;
+	            var selectedEventTime = _CalendarStore$getSta2.selectedEventTime;
+	            var selectedEventDesc = _CalendarStore$getSta2.selectedEventDesc;
+	            var selectedEventVenue = _CalendarStore$getSta2.selectedEventVenue;
+	            var selectedEventShortdate = _CalendarStore$getSta2.selectedEventShortdate;
+	            var eventInfoVisible = _CalendarStore$getSta2.eventInfoVisible;
+
 
 	            this.setState({
 	                currentDate: currentDate,
 	                currentMonth: currentMonth,
 	                currentYear: currentYear,
+	                events: eventData[currentMonth].events[currentEvent],
 	                currentEvent: currentEvent,
-	                events: eventData[currentMonth].events[currentEvent]
+	                selectedEventTime: selectedEventTime,
+	                selectedEventDesc: selectedEventDesc,
+	                selectedEventShortdate: selectedEventShortdate,
+	                selectedEventVenue: selectedEventVenue,
+	                eventInfoVisible: eventInfoVisible
 	            });
 	        }
 	    }, {
 	        key: "onDateClick",
 	        value: function onDateClick(evt) {
-	            var target = Calendar.getSelectedEventListItem(evt);
-	            var position = (0, _domUtils.getElementPositionToContainer)("#calendar-app", target);
-	            this.setState({
-	                selectedEventTime: target.getAttribute("data-time"),
-	                selectedEventDesc: target.getAttribute("data-event"),
-	                eventTipPos: { left: position.x + "px", top: position.y + "px" }
-	            });
+	            if (!this.state.eventInfoVisible) {
+	                var target = Calendar.getSelectedEventListItem(evt);
+	                _calendarStore2.default.dispatch((0, _calendarActions.eventSelected)(target));
+	            }
+	        }
+	    }, {
+	        key: "createHeader",
+	        value: function createHeader() {
+	            var daysOfWeek = (0, _dateUtils.days)(),
+	                i = 0,
+	                listItems = [];
+
+	            for (; i < daysOfWeek.length; i++) {
+	                listItems.push(_react2.default.createElement(
+	                    "li",
+	                    { key: "day" + i },
+	                    " ",
+	                    daysOfWeek[i],
+	                    " "
+	                ));
+	            }
+
+	            return _react2.default.createElement(
+	                "ul",
+	                { className: "weeks" },
+	                " ",
+	                listItems,
+	                " "
+	            );
 	        }
 	    }, {
 	        key: "createListItem",
 	        value: function createListItem(index, currentDate, firstDayOfMonthIndex) {
 	            var time = void 0,
-	                name = void 0,
+	                desc = void 0,
 	                iconClass = void 0,
 	                eventClass = void 0,
-	                eventHandler = void 0;
+	                eventHandler = void 0,
+	                venue = void 0,
+	                monthsOfYear = (0, _dateUtils.months)();
 
 	            if (this.state.events.length) {
 	                var event = this.hasEvent(index);
 	                if (event.length && currentDate <= index - 1) {
 	                    var details = event.pop();
 	                    time = details.time;
-	                    name = details.event;
+	                    desc = details.desc;
+	                    venue = details.venue;
 	                    iconClass = "bullet-event";
 	                    eventClass = "date-event";
 	                    eventHandler = this.onDateClick.bind(this);
@@ -19792,7 +19845,9 @@
 	                {
 	                    key: "date" + index,
 	                    "data-time": time,
-	                    "data-event": name,
+	                    "data-desc": desc,
+	                    "data-venue": venue,
+	                    "data-date": index - 1 + " " + monthsOfYear[this.state.currentMonth] + " " + this.state.currentYear,
 	                    className: classes,
 	                    onClick: eventHandler },
 	                _react2.default.createElement("i", { className: iconClass }),
@@ -19806,6 +19861,16 @@
 	            return this.state.events.filter(function (event) {
 	                return index === parseInt(event.date) + 1;
 	            });
+	        }
+	    }, {
+	        key: "bookEvent",
+	        value: function bookEvent() {
+	            window.location = "http://google.co.uk?event=" + this.state.selectedEventDesc + "&month=" + this.state.currentMonth + "&year=" + this.state.currentYear;
+	        }
+	    }, {
+	        key: "closeEventTip",
+	        value: function closeEventTip() {
+	            _calendarStore2.default.dispatch((0, _calendarActions.eventClosed)());
 	        }
 	    }, {
 	        key: "createDates",
@@ -19840,15 +19905,23 @@
 	    }, {
 	        key: "render",
 	        value: function render() {
+	            if (!this.state.events.length) {
+	                return false;
+	            }
+
 	            return _react2.default.createElement(
 	                "div",
 	                null,
-	                Calendar.createHeader(),
+	                this.createHeader(),
 	                this.createDates(),
 	                _react2.default.createElement(_eventTip.EventTip, {
 	                    time: this.state.selectedEventTime,
 	                    desc: this.state.selectedEventDesc,
-	                    position: this.state.eventTipPos
+	                    date: this.state.selectedEventShortdate,
+	                    venue: this.state.selectedEventVenue,
+	                    visible: this.state.eventInfoVisible,
+	                    bookEvent: this.bookEvent.bind(this),
+	                    closeEventTip: this.closeEventTip.bind(this)
 	                })
 	            );
 	        }
@@ -19857,34 +19930,13 @@
 	        value: function getSelectedEventListItem(evt) {
 	            var target = evt.target || evt.srcElement;
 	            var data = target.getAttribute("data-time");
+
 	            while (!data) {
 	                target = target.parentNode;
 	                data = target.getAttribute("data-time");
 	            }
+
 	            return target;
-	        }
-	    }, {
-	        key: "createHeader",
-	        value: function createHeader() {
-	            var days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
-	                i = 0,
-	                listItems = [];
-	            for (; i < days.length; i++) {
-	                listItems.push(_react2.default.createElement(
-	                    "li",
-	                    { key: "day" + i },
-	                    " ",
-	                    days[i],
-	                    " "
-	                ));
-	            }
-	            return _react2.default.createElement(
-	                "ul",
-	                { className: "weeks" },
-	                " ",
-	                listItems,
-	                " "
-	            );
 	        }
 	    }, {
 	        key: "getDateListItemClass",
@@ -20696,6 +20748,11 @@
 	    earliestDate: (0, _dateUtils.getCurrentDate)().date,
 	    earliestMonth: (0, _dateUtils.getCurrentDate)().month,
 	    earliestYear: (0, _dateUtils.getCurrentDate)().year,
+	    selectedEventTime: "",
+	    selectedEventDesc: "",
+	    selectedEventShortdate: "",
+	    selectedEventVenue: "",
+	    eventInfoVisible: false,
 	    eventData: []
 	};
 
@@ -20707,6 +20764,22 @@
 	        case "NEWYEARLYEVENTDATA":
 	            return Object.assign({}, state, {
 	                eventData: action.state
+	            });
+	        case "EVENTSELECTED":
+	            return Object.assign({}, state, {
+	                selectedEventDesc: action.state.getAttribute("data-desc"),
+	                selectedEventTime: action.state.getAttribute("data-time"),
+	                selectedEventVenue: action.state.getAttribute("data-venue"),
+	                selectedEventShortdate: action.state.getAttribute("data-date"),
+	                eventInfoVisible: true
+	            });
+	        case "EVENTCLOSED":
+	            return Object.assign({}, state, {
+	                selectedEventDesc: "",
+	                selectedEventTime: "",
+	                selectedEventShortdate: "",
+	                selectedEventVenue: "",
+	                eventInfoVisible: false
 	            });
 	        default:
 	            return state;
@@ -20723,6 +20796,8 @@
 	    value: true
 	});
 	exports.getFullDate = getFullDate;
+	exports.days = days;
+	exports.months = months;
 	exports.getDayOfWeek = getDayOfWeek;
 	exports.getDate = getDate;
 	exports.getDayIndex = getDayIndex;
@@ -20747,8 +20822,16 @@
 	    return new Date(y, m, d, 12, 0);
 	}
 
+	function days() {
+	    return ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+	}
+
+	function months() {
+	    return ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+	}
+
 	function getDayOfWeek(date) {
-	    return ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"][getDayIndex(date)];
+	    return days()[getDayIndex(date)];
 	}
 	function getDate(date) {
 	    return date.getDate();
@@ -22187,10 +22270,24 @@
 	    value: true
 	});
 	exports.yearlyEventData = yearlyEventData;
+	exports.eventSelected = eventSelected;
+	exports.eventClosed = eventClosed;
 	var NEWYEARLYEVENTDATA = "NEWYEARLYEVENTDATA";
 
 	function yearlyEventData(data) {
 	    return { state: data, type: NEWYEARLYEVENTDATA };
+	}
+
+	var EVENTSELECTED = "EVENTSELECTED";
+
+	function eventSelected(data) {
+	    return { state: data, type: EVENTSELECTED };
+	}
+
+	var EVENTCLOSED = "EVENTCLOSED";
+
+	function eventClosed() {
+	    return { type: EVENTCLOSED };
 	}
 
 /***/ },
@@ -22247,6 +22344,8 @@
 	    var elX = getPositionToWindow(el).left;
 	    var elY = getPositionToWindow(el).top;
 
+	    console.log(conY, elY);
+
 	    var x = elX - conX;
 	    var y = elY - conY;
 
@@ -22261,7 +22360,7 @@
 
 	    var pos = element.getBoundingClientRect();
 	    var winPos = getWindowPosition();
-	    var top = pos.top + winPos.winY;
+	    var top = pos.bottom + winPos.winY;
 	    var left = pos.left + winPos.winX;
 
 	    return { top: top, left: left };
@@ -22290,16 +22389,18 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
+	var _domUtils = __webpack_require__(180);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	var EventTip = exports.EventTip = function EventTip(props) {
 	    return _react2.default.createElement(
 	        "span",
-	        { style: props.position, className: "event-tip" },
+	        { className: (0, _domUtils.classNames)({ "event-tip": true, "show": props.visible }) },
 	        _react2.default.createElement(
 	            "p",
-	            { className: "event-time" },
-	            props.time
+	            { className: "event-date" },
+	            props.date
 	        ),
 	        _react2.default.createElement(
 	            "p",
@@ -22308,8 +22409,23 @@
 	        ),
 	        _react2.default.createElement(
 	            "p",
-	            null,
-	            "Hi kids!!!!"
+	            { className: "event-venue" },
+	            props.venue
+	        ),
+	        _react2.default.createElement(
+	            "p",
+	            { className: "event-time" },
+	            props.time
+	        ),
+	        _react2.default.createElement(
+	            "button",
+	            { onClick: props.bookEvent },
+	            "Make a booking enquiry"
+	        ),
+	        _react2.default.createElement(
+	            "p",
+	            { className: "close", onClick: props.closeEventTip },
+	            "Close"
 	        )
 	    );
 	};

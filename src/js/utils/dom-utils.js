@@ -35,6 +35,8 @@ export function getElementPositionToContainer(container, element) {
     let elX = getPositionToWindow(el).left;
     let elY = getPositionToWindow(el).top;
 
+    console.log(conY, elY);
+
     let x = elX - conX;
     let y = elY - conY;
 
@@ -50,7 +52,7 @@ export function getPositionToWindow(element) {
 
     let pos = element.getBoundingClientRect();
     let winPos = getWindowPosition();
-    let top = pos.top + winPos.winY;
+    let top = pos.bottom + winPos.winY;
     let left = pos.left + winPos.winX;
 
     return { top, left };

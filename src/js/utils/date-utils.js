@@ -5,8 +5,16 @@ export function getFullDate(y, m, d = 1) {
     return new Date(y, m, d, 12, 0);
 }
 
+export function days() {
+    return ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+}
+
+export function months() {
+    return ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+}
+
 export function getDayOfWeek(date) {
-    return ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"][getDayIndex(date)];
+    return days()[getDayIndex(date)];
 }
 export function getDate(date) {
     return date.getDate();
