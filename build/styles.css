@@ -94,6 +94,7 @@ section li {
 .date-event {
     cursor: pointer;
     transition: background 0.3s ease-in-out;
+    background: #F8F8F8;
 }
 .date-event:hover {
     background: #efefef;
@@ -130,11 +131,10 @@ section li {
     position: absolute;
     width: 200px;
     left: 40px;
-    top: 20px;
+    top: 10px;
     background: #249991;
     color: white;
     z-index: 2;
-    box-shadow: 4px 4px 3px rgba(0,0,0,0.5);
     opacity: 0;
     transition: opacity 0.2s ease-out;
     padding: 20px;

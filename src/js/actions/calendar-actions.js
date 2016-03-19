@@ -15,3 +15,9 @@ const EVENTCLOSED = "EVENTCLOSED";
 export function eventClosed() {
     return { type: EVENTCLOSED }
 }
+
+const CURRENTEVENTUPDATE = "CURRENTEVENTUPDATE";
+
+export function currentEventUpdate(data) {
+    return { state : data, type : CURRENTEVENTUPDATE };
+}

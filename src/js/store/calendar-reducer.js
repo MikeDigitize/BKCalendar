@@ -1,4 +1,7 @@
 import { getCurrentDate as now } from "../utils/date-utils";
+import "../utils/array-find-polyfill";
+import "../utils/array-from-polyfill";
+import "../utils/object-assign-polyfill";
 
 let initialState = {
     currentDate : now().date,
@@ -37,6 +40,13 @@ export default function calendarData(state = initialState, action = {}) {
                 selectedEventShortdate : "",
                 selectedEventVenue : "",
                 eventInfoVisible : false
+            });
+        case "CURRENTEVENTUPDATE" :
+            return Object.assign({}, state, {
+                currentEvent : Array.from(action.state.classList)
+                                    .filter(cls => ["football", "cricket", "rugby", "horse-racing"]
+                                    .find(evt => evt === cls))
+                                    .pop()
             });
         default :
             return state;

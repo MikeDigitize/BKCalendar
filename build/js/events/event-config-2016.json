@@ -67,7 +67,13 @@
           "competition": "Premiership"
         }
       ],
-      "cricket": [],
+      "cricket": [{
+        "date": "24",
+        "time": "19:45 - 21:45",
+        "desc": "Lancashire vs Yorkshire",
+        "venue": "Old Trafford",
+        "competition": "County League"
+      }],
       "horse-racing": []
     }
   },
