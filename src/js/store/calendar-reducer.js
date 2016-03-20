@@ -48,6 +48,16 @@ export default function calendarData(state = initialState, action = {}) {
                                     .find(evt => evt === cls))
                                     .pop()
             });
+        case "CURRENTMONTHUPDATE" :
+            let currentMonth = action.state === "prev" ? --state.currentMonth : ++state.currentMonth;
+            let currentYear = currentMonth === -1 ? --state.currentYear : currentMonth === 12 ? ++state.currentYear : state.currentYear;
+            currentMonth = currentMonth === -1 ? 11 : currentMonth === 12 ? 0 : currentMonth;
+            let currentDay = currentMonth === state.earliestMonth && currentYear === state.earliestYear ? state.earliestDate : 0;
+            return Object.assign({}, state, {
+                currentMonth : currentMonth,
+                currentYear : currentYear,
+                currentDay : currentDay
+            });
         default :
             return state;
     }

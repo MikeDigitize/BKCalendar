@@ -36,7 +36,20 @@
   {
     "month" : "March",
     "events": {
-      "rugby": [],
+      "rugby": [{
+        "date": "26",
+        "time": "19:45 - 21:45",
+        "desc": "Wigan vs St Helens",
+        "venue": "DW Stadium",
+        "competition": "Super League"
+      },
+        {
+          "date": "27",
+          "time": "19:30 - 21:30",
+          "desc": "Leigh Centurions vs Salford Red Devils",
+          "venue": "Leigh Sports Village",
+          "competition": "Super League"
+        }],
       "football": [
         {
           "date": "16",

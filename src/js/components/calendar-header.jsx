@@ -1,8 +1,9 @@
 import React, { Component } from "react";
 import CalendarStore from "../store/calendar-store";
 import { months } from "../utils/date-utils";
-import { currentEventUpdate } from "../actions/calendar-actions";
-import { CalendarHeaderIcons } from "./calendar-header-icons";
+import { currentEventUpdate, currentMonthUpdate } from "../actions/calendar-actions";
+import { CalendarHeaderIcons, CalendarHeaderArrowsNext, CalendarHeaderArrowsPrev } from "./calendar-header-icons";
+import { CalendarHeaderDateSelect } from "./calendar-header-date-select";
 
 export default class CalendarHeader extends Component {
 
@@ -11,12 +12,16 @@ export default class CalendarHeader extends Component {
 
         let { currentMonth,
             currentYear,
-            currentEvent } = CalendarStore.getState().calendarData;
+            currentEvent,
+            earliestMonth,
+            earliestYear } = CalendarStore.getState().calendarData;
 
         this.state = {
             currentMonth : currentMonth,
             currentYear : currentYear,
             currentEvent : currentEvent,
+            earliestMonth : earliestMonth,
+            earliestYear : earliestYear,
             unsubscribe : CalendarStore.subscribe(this.onStoreUpdate.bind(this))
         };
     }
@@ -33,6 +38,21 @@ export default class CalendarHeader extends Component {
         return target;
     }
 
+    static onIconClick(evt) {
+        let target = CalendarHeader.getSelectedEventListItem(evt);
+        CalendarStore.dispatch(currentEventUpdate(target));
+    }
+    
+    onArrowClickPrev() {
+        if(!(this.state.currentMonth === this.state.earliestMonth && this.state.currentYear === this.state.earliestYear)) {
+            CalendarStore.dispatch(currentMonthUpdate("prev"));
+        }
+    }
+    
+    onArrowClickNext() {
+        CalendarStore.dispatch(currentMonthUpdate("next"));
+    }
+
     onStoreUpdate() {
         let { currentMonth,
             currentYear,
@@ -45,21 +65,22 @@ export default class CalendarHeader extends Component {
         });
     }
 
-    onIconClick(evt) {
-        let target = CalendarHeader.getSelectedEventListItem(evt);
-        CalendarStore.dispatch(currentEventUpdate(target));
-    }
-
     render() {
         return(
             <header role="banner">
-                <time>{ months()[this.state.currentMonth]}<em>{ this.state.currentYear }</em></time>
-                <p className="title">Events</p>
+                <CalendarHeaderDateSelect
+                    currentMonth={ this.state.currentMonth }
+                    currentYear={ this.state.currentYear }
+                    onArrowClickNext={ this.onArrowClickNext }
+                    onArrowClickPrev={ this.onArrowClickPrev.bind(this) }
+                />
+                <p className="title">Sporting Event Calendar</p>
+                <p className="selected-event">{ this.state.currentEvent }</p>
                 <CalendarHeaderIcons
                     currentEvent={ this.state.currentEvent }
-                    onIconClick={ this.onIconClick.bind(this) }
+                    onIconClick={ CalendarHeader.onIconClick }
                 />
-                <p className="subtitle">Choose an event</p>
+                <p className="subtitle">Select a sport</p>
             </header>
         );
     }

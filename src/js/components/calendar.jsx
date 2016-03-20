@@ -7,9 +7,7 @@ export default class Calendar extends Component {
         return (
             <div>
                 <CalendarHeader />
-                <section role="main" id="calendar-app">
-                    <CalendarBody />
-                </section>
+                <CalendarBody />
             </div>
         );
     }

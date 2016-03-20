@@ -19683,7 +19683,7 @@
 
 	var _calendarHeader2 = _interopRequireDefault(_calendarHeader);
 
-	var _calendarBody = __webpack_require__(186);
+	var _calendarBody = __webpack_require__(187);
 
 	var _calendarBody2 = _interopRequireDefault(_calendarBody);
 
@@ -19711,11 +19711,7 @@
 	                "div",
 	                null,
 	                _react2.default.createElement(_calendarHeader2.default, null),
-	                _react2.default.createElement(
-	                    "section",
-	                    { role: "main", id: "calendar-app" },
-	                    _react2.default.createElement(_calendarBody2.default, null)
-	                )
+	                _react2.default.createElement(_calendarBody2.default, null)
 	            );
 	        }
 	    }]);
@@ -19751,6 +19747,8 @@
 
 	var _calendarHeaderIcons = __webpack_require__(184);
 
+	var _calendarHeaderDateSelect = __webpack_require__(186);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -19772,18 +19770,34 @@
 	        var currentMonth = _CalendarStore$getSta.currentMonth;
 	        var currentYear = _CalendarStore$getSta.currentYear;
 	        var currentEvent = _CalendarStore$getSta.currentEvent;
+	        var earliestMonth = _CalendarStore$getSta.earliestMonth;
+	        var earliestYear = _CalendarStore$getSta.earliestYear;
 
 
 	        _this.state = {
 	            currentMonth: currentMonth,
 	            currentYear: currentYear,
 	            currentEvent: currentEvent,
+	            earliestMonth: earliestMonth,
+	            earliestYear: earliestYear,
 	            unsubscribe: _calendarStore2.default.subscribe(_this.onStoreUpdate.bind(_this))
 	        };
 	        return _this;
 	    }
 
 	    _createClass(CalendarHeader, [{
+	        key: "onArrowClickPrev",
+	        value: function onArrowClickPrev() {
+	            if (!(this.state.currentMonth === this.state.earliestMonth && this.state.currentYear === this.state.earliestYear)) {
+	                _calendarStore2.default.dispatch((0, _calendarActions.currentMonthUpdate)("prev"));
+	            }
+	        }
+	    }, {
+	        key: "onArrowClickNext",
+	        value: function onArrowClickNext() {
+	            _calendarStore2.default.dispatch((0, _calendarActions.currentMonthUpdate)("next"));
+	        }
+	    }, {
 	        key: "onStoreUpdate",
 	        value: function onStoreUpdate() {
 	            var _CalendarStore$getSta2 = _calendarStore2.default.getState().calendarData;
@@ -19800,40 +19814,35 @@
 	            });
 	        }
 	    }, {
-	        key: "onIconClick",
-	        value: function onIconClick(evt) {
-	            var target = CalendarHeader.getSelectedEventListItem(evt);
-	            _calendarStore2.default.dispatch((0, _calendarActions.currentEventUpdate)(target));
-	        }
-	    }, {
 	        key: "render",
 	        value: function render() {
 	            return _react2.default.createElement(
 	                "header",
 	                { role: "banner" },
-	                _react2.default.createElement(
-	                    "time",
-	                    null,
-	                    (0, _dateUtils.months)()[this.state.currentMonth],
-	                    _react2.default.createElement(
-	                        "em",
-	                        null,
-	                        this.state.currentYear
-	                    )
-	                ),
+	                _react2.default.createElement(_calendarHeaderDateSelect.CalendarHeaderDateSelect, {
+	                    currentMonth: this.state.currentMonth,
+	                    currentYear: this.state.currentYear,
+	                    onArrowClickNext: this.onArrowClickNext,
+	                    onArrowClickPrev: this.onArrowClickPrev.bind(this)
+	                }),
 	                _react2.default.createElement(
 	                    "p",
 	                    { className: "title" },
-	                    "Events"
+	                    "Sporting Event Calendar"
+	                ),
+	                _react2.default.createElement(
+	                    "p",
+	                    { className: "selected-event" },
+	                    this.state.currentEvent
 	                ),
 	                _react2.default.createElement(_calendarHeaderIcons.CalendarHeaderIcons, {
 	                    currentEvent: this.state.currentEvent,
-	                    onIconClick: this.onIconClick.bind(this)
+	                    onIconClick: CalendarHeader.onIconClick
 	                }),
 	                _react2.default.createElement(
 	                    "p",
 	                    { className: "subtitle" },
-	                    "Choose an event"
+	                    "Select a sport"
 	                )
 	            );
 	        }
@@ -19849,6 +19858,12 @@
 	            }
 
 	            return target;
+	        }
+	    }, {
+	        key: "onIconClick",
+	        value: function onIconClick(evt) {
+	            var target = CalendarHeader.getSelectedEventListItem(evt);
+	            _calendarStore2.default.dispatch((0, _calendarActions.currentEventUpdate)(target));
 	        }
 	    }]);
 
@@ -20697,6 +20712,16 @@
 	                    });
 	                }).pop()
 	            });
+	        case "CURRENTMONTHUPDATE":
+	            var currentMonth = action.state === "prev" ? --state.currentMonth : ++state.currentMonth;
+	            var currentYear = currentMonth === -1 ? --state.currentYear : currentMonth === 12 ? ++state.currentYear : state.currentYear;
+	            currentMonth = currentMonth === -1 ? 11 : currentMonth === 12 ? 0 : currentMonth;
+	            var currentDay = currentMonth === state.earliestMonth && currentYear === state.earliestYear ? state.earliestDate : 0;
+	            return Object.assign({}, state, {
+	                currentMonth: currentMonth,
+	                currentYear: currentYear,
+	                currentDay: currentDay
+	            });
 	        default:
 	            return state;
 	    }
@@ -21190,7 +21215,7 @@
 /* 176 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var __WEBPACK_AMD_DEFINE_RESULT__;var require;/* WEBPACK VAR INJECTION */(function(process, global, module) {/*!
+	var require;var __WEBPACK_AMD_DEFINE_RESULT__;/* WEBPACK VAR INJECTION */(function(process, global, module) {/*!
 	 * @overview es6-promise - a tiny implementation of Promises/A+.
 	 * @copyright Copyright (c) 2014 Yehuda Katz, Tom Dale, Stefan Penner and contributors (Conversion to ES6 API by Jake Archibald)
 	 * @license   Licensed under MIT license
@@ -22336,6 +22361,7 @@
 	exports.eventSelected = eventSelected;
 	exports.eventClosed = eventClosed;
 	exports.currentEventUpdate = currentEventUpdate;
+	exports.currentMonthUpdate = currentMonthUpdate;
 	var NEWYEARLYEVENTDATA = "NEWYEARLYEVENTDATA";
 
 	function yearlyEventData(data) {
@@ -22358,6 +22384,12 @@
 
 	function currentEventUpdate(data) {
 	    return { state: data, type: CURRENTEVENTUPDATE };
+	}
+
+	var CURRENTMONTHUPDATE = "CURRENTMONTHUPDATE";
+
+	function currentMonthUpdate(data) {
+	    return { state: data, type: CURRENTMONTHUPDATE };
 	}
 
 /***/ },
@@ -22392,7 +22424,7 @@
 	                }) },
 	            _react2.default.createElement(
 	                "svg",
-	                { onClick: props.onIconClick, id: "Capa_1", x: "0px", y: "0px", width: "30px", height: "30px", viewBox: "0 0 72.371 72.372", style: { "enableBackground": "new 0 0 72.371 72.372" } },
+	                { onClick: props.onIconClick, x: "0px", y: "0px", width: "30px", height: "30px", viewBox: "0 0 72.371 72.372", style: { "enableBackground": "new 0 0 72.371 72.372" } },
 	                _react2.default.createElement(
 	                    "g",
 	                    null,
@@ -22424,7 +22456,7 @@
 	                }) },
 	            _react2.default.createElement(
 	                "svg",
-	                { onClick: props.onIconClick, id: "Capa_1", x: "0px", y: "0px", viewBox: "0 0 58.809 58.809", style: { "enableBackground": "new 0 0 58.809 58.809" }, width: "30px", height: "30px" },
+	                { onClick: props.onIconClick, x: "0px", y: "0px", viewBox: "0 0 58.809 58.809", style: { "enableBackground": "new 0 0 58.809 58.809" }, width: "30px", height: "30px" },
 	                _react2.default.createElement(
 	                    "g",
 	                    null,
@@ -22466,7 +22498,7 @@
 	                }) },
 	            _react2.default.createElement(
 	                "svg",
-	                { onClick: props.onIconClick, id: "Capa_1", x: "0px", y: "0px", viewBox: "0 0 28.546 28.546", style: { "enableBackground": "new 0 0 28.546 28.546" }, width: "30px", height: "30px" },
+	                { onClick: props.onIconClick, x: "0px", y: "0px", viewBox: "0 0 28.546 28.546", style: { "enableBackground": "new 0 0 28.546 28.546" }, width: "30px", height: "30px" },
 	                _react2.default.createElement(
 	                    "g",
 	                    null,
@@ -22514,7 +22546,7 @@
 	                }) },
 	            _react2.default.createElement(
 	                "svg",
-	                { onClick: props.onIconClick, id: "Capa_1", x: "0px", y: "0px", viewBox: "0 0 487.593 487.593", style: { "enableBackground": "new 0 0 487.593 487.593" }, width: "30px", height: "30px" },
+	                { onClick: props.onIconClick, x: "0px", y: "0px", viewBox: "0 0 487.593 487.593", style: { "enableBackground": "new 0 0 487.593 487.593" }, width: "30px", height: "30px" },
 	                _react2.default.createElement(
 	                    "g",
 	                    null,
@@ -22643,6 +22675,68 @@
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
+	exports.CalendarHeaderDateSelect = undefined;
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _dateUtils = __webpack_require__(174);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var CalendarHeaderDateSelect = exports.CalendarHeaderDateSelect = function CalendarHeaderDateSelect(props) {
+	    return _react2.default.createElement(
+	        "div",
+	        null,
+	        _react2.default.createElement(
+	            "span",
+	            { onClick: props.onArrowClickPrev, className: "month-nav-arrow left" },
+	            _react2.default.createElement(
+	                "svg",
+	                { x: "0px", y: "0px", width: "30px", height: "30px", viewBox: "0 0 199.404 199.404", style: { "enableBackground": "new 0 0 199.404 199.404" } },
+	                _react2.default.createElement(
+	                    "g",
+	                    null,
+	                    _react2.default.createElement("polygon", { points: "135.412,0 35.709,99.702 135.412,199.404 163.695,171.119 92.277,99.702 163.695,28.285 ", fill: "#FFFFFF" })
+	                )
+	            )
+	        ),
+	        _react2.default.createElement(
+	            "time",
+	            null,
+	            (0, _dateUtils.months)()[props.currentMonth],
+	            _react2.default.createElement(
+	                "em",
+	                null,
+	                props.currentYear
+	            )
+	        ),
+	        _react2.default.createElement(
+	            "span",
+	            { onClick: props.onArrowClickNext, className: "month-nav-arrow right" },
+	            _react2.default.createElement(
+	                "svg",
+	                { x: "0px", y: "0px", width: "30px", height: "30px", viewBox: "0 0 306 306", style: { "enableBackground": "new 0 0 306 306" } },
+	                _react2.default.createElement(
+	                    "g",
+	                    null,
+	                    _react2.default.createElement("polygon", { points: "94.35,0 58.65,35.7 175.95,153 58.65,270.3 94.35,306 247.35,153", fill: "#FFFFFF" })
+	                )
+	            )
+	        )
+	    );
+	};
+
+/***/ },
+/* 187 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -22660,9 +22754,9 @@
 
 	var _domUtils = __webpack_require__(185);
 
-	var _eventTip = __webpack_require__(187);
+	var _eventTip = __webpack_require__(188);
 
-	var _calendarOverlay = __webpack_require__(188);
+	var _calendarOverlay = __webpack_require__(189);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -22885,8 +22979,8 @@
 	        key: "render",
 	        value: function render() {
 	            return _react2.default.createElement(
-	                "div",
-	                null,
+	                "section",
+	                { role: "main", id: "calendar-app" },
 	                this.createHeader(),
 	                this.createDates(),
 	                _react2.default.createElement(_eventTip.EventTip, {
@@ -22936,7 +23030,7 @@
 	exports.default = CalendarBody;
 
 /***/ },
-/* 187 */
+/* 188 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -22992,7 +23086,7 @@
 	};
 
 /***/ },
-/* 188 */
+/* 189 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";

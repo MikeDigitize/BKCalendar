@@ -21,3 +21,9 @@ const CURRENTEVENTUPDATE = "CURRENTEVENTUPDATE";
 export function currentEventUpdate(data) {
     return { state : data, type : CURRENTEVENTUPDATE };
 }
+
+const CURRENTMONTHUPDATE = "CURRENTMONTHUPDATE";
+
+export function currentMonthUpdate(data) {
+    return { state : data, type : CURRENTMONTHUPDATE };
+}

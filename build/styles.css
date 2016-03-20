@@ -36,8 +36,14 @@ time em {
     font-size: 22px;
     margin: 15px auto;
 }
+.selected-event {
+    text-transform: capitalize;
+    color: #fff;
+    margin-bottom: 10px;
+}
 .subtitle {
     font-size: 16px;
+    margin-bottom: 0;
 }
 
 header {
@@ -45,6 +51,7 @@ header {
     background: #4ecdc4;
     text-align: center;
     font-family: "Roboto Condensed", sans-serif;
+    position: relative;
 }
 header a {
     display: inline-block;
@@ -62,9 +69,24 @@ header a:hover {
     background: #249991;
     color: #ccc;
 }
-
+.month-nav-arrow {
+    position: absolute;
+    top: 28px;
+    cursor: pointer;
+}
+.month-nav-arrow.right {
+    right: 50px;
+}
+.month-nav-arrow.left {
+    left: 50px;
+}
+.month-nav-arrow polygon {
+    transition: fill 0.5s ease-in;
+}
+.month-nav-arrow:hover polygon {
+    fill: #DADADA;
+}
 [role="main"] {
-    /*overflow: hidden;*/
     padding: 15px;
     background: white;
     font-family: "Helvetica";

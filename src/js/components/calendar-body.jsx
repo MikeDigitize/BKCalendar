@@ -178,7 +178,7 @@ export default class CalendarBody extends Component {
 
     render() {
         return (
-            <div>
+            <section role="main" id="calendar-app">
                 { this.createHeader() }
                 { this.createDates() }
                 <EventTip
@@ -195,7 +195,7 @@ export default class CalendarBody extends Component {
                     style={ this.getCalendarHeight() }
                     closeEventTip={ this.closeEventTip.bind(this) }
                 />
-            </div>
+            </section>
         );
     }
 
