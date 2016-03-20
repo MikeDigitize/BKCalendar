@@ -54,6 +54,6 @@ export function getCurrentDate() {
 export function getEvents(year) {
     return fetch(`/js/events/event-config-${year}.json`)
         .then(response => {
-            return response.json()
+            return response.status !== 404 ? response.json() : response;
         });
 }

@@ -36,7 +36,7 @@ export default class CalendarBody extends Component {
             unsubscribe : CalendarStore.subscribe(this.onStoreUpdate.bind(this))
         };
 
-        getEvents(this.state.currentYear).then(data => CalendarStore.dispatch(yearlyEventData(data)));
+        CalendarStore.dispatch(yearlyEventData(this.state.currentYear));
     }
 
     componentWillUnmount() {
@@ -73,13 +73,15 @@ export default class CalendarBody extends Component {
             selectedEventDesc,
             selectedEventVenue,
             selectedEventShortdate,
-            eventInfoVisible} = CalendarStore.getState().calendarData;
+            eventInfoVisible } = CalendarStore.getState().calendarData;
+
+        let events = eventData[currentMonth] ? eventData[currentMonth].events[currentEvent] : [];
 
         this.setState({
             currentDate : currentDate,
             currentMonth : currentMonth,
             currentYear : currentYear,
-            events : eventData[currentMonth].events[currentEvent],
+            events : events,
             currentEvent : currentEvent,
             selectedEventTime : selectedEventTime,
             selectedEventDesc : selectedEventDesc,

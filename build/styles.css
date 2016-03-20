@@ -162,9 +162,11 @@ section li {
     padding: 20px;
     box-sizing: border-box;
     text-align: center;
+    height: 0;
 }
 .event-tip.show-tip {
     opacity: 1;
+    height: auto;
 }
 .event-tip .event-date {
     font-size: 14px;

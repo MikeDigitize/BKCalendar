@@ -44,13 +44,15 @@ export default class CalendarHeader extends Component {
     }
     
     onArrowClickPrev() {
+        console.log("prev!");
         if(!(this.state.currentMonth === this.state.earliestMonth && this.state.currentYear === this.state.earliestYear)) {
-            CalendarStore.dispatch(currentMonthUpdate("prev"));
+            CalendarStore.dispatch(currentMonthUpdate({ action : "prev", month : this.state.currentMonth, year : this.state.currentYear }));
         }
     }
     
     onArrowClickNext() {
-        CalendarStore.dispatch(currentMonthUpdate("next"));
+        console.log("next!");
+        CalendarStore.dispatch(currentMonthUpdate({ action : "next", month : this.state.currentMonth, year : this.state.currentYear }));
     }
 
     onStoreUpdate() {
@@ -71,7 +73,7 @@ export default class CalendarHeader extends Component {
                 <CalendarHeaderDateSelect
                     currentMonth={ this.state.currentMonth }
                     currentYear={ this.state.currentYear }
-                    onArrowClickNext={ this.onArrowClickNext }
+                    onArrowClickNext={ this.onArrowClickNext.bind(this) }
                     onArrowClickPrev={ this.onArrowClickPrev.bind(this) }
                 />
                 <p className="title">Sporting Event Calendar</p>

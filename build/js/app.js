@@ -19788,14 +19788,16 @@
 	    _createClass(CalendarHeader, [{
 	        key: "onArrowClickPrev",
 	        value: function onArrowClickPrev() {
+	            console.log("prev!");
 	            if (!(this.state.currentMonth === this.state.earliestMonth && this.state.currentYear === this.state.earliestYear)) {
-	                _calendarStore2.default.dispatch((0, _calendarActions.currentMonthUpdate)("prev"));
+	                _calendarStore2.default.dispatch((0, _calendarActions.currentMonthUpdate)({ action: "prev", month: this.state.currentMonth, year: this.state.currentYear }));
 	            }
 	        }
 	    }, {
 	        key: "onArrowClickNext",
 	        value: function onArrowClickNext() {
-	            _calendarStore2.default.dispatch((0, _calendarActions.currentMonthUpdate)("next"));
+	            console.log("next!");
+	            _calendarStore2.default.dispatch((0, _calendarActions.currentMonthUpdate)({ action: "next", month: this.state.currentMonth, year: this.state.currentYear }));
 	        }
 	    }, {
 	        key: "onStoreUpdate",
@@ -19822,7 +19824,7 @@
 	                _react2.default.createElement(_calendarHeaderDateSelect.CalendarHeaderDateSelect, {
 	                    currentMonth: this.state.currentMonth,
 	                    currentYear: this.state.currentYear,
-	                    onArrowClickNext: this.onArrowClickNext,
+	                    onArrowClickNext: this.onArrowClickNext.bind(this),
 	                    onArrowClickPrev: this.onArrowClickPrev.bind(this)
 	                }),
 	                _react2.default.createElement(
@@ -20683,10 +20685,24 @@
 	    var state = arguments.length <= 0 || arguments[0] === undefined ? initialState : arguments[0];
 	    var action = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
 
+	    var currentMonth = void 0,
+	        currentDate = void 0,
+	        currentYear = void 0,
+	        eventData = void 0;
 	    switch (action.type) {
 	        case "NEWYEARLYEVENTDATA":
+	            eventData = action.state === "file not found" ? state.eventData : action.state;
+	            currentYear = state.currentYear;
+	            currentMonth = state.currentMonth;
+	            if (action.state !== "file not found") {
+	                currentYear = currentMonth === 0 ? ++state.currentYear : currentMonth === 11 ? --state.currentYear : state.currentYear;
+	            } else {
+	                currentMonth = currentMonth === 0 ? 11 : 0;
+	            }
 	            return Object.assign({}, state, {
-	                eventData: action.state
+	                eventData: eventData,
+	                currentYear: currentYear,
+	                currentMonth: currentMonth
 	            });
 	        case "EVENTSELECTED":
 	            return Object.assign({}, state, {
@@ -20713,14 +20729,12 @@
 	                }).pop()
 	            });
 	        case "CURRENTMONTHUPDATE":
-	            var currentMonth = action.state === "prev" ? --state.currentMonth : ++state.currentMonth;
-	            var currentYear = currentMonth === -1 ? --state.currentYear : currentMonth === 12 ? ++state.currentYear : state.currentYear;
+	            currentMonth = action.state.action === "prev" ? --state.currentMonth : ++state.currentMonth;
 	            currentMonth = currentMonth === -1 ? 11 : currentMonth === 12 ? 0 : currentMonth;
-	            var currentDay = currentMonth === state.earliestMonth && currentYear === state.earliestYear ? state.earliestDate : 0;
+	            currentDate = currentMonth === state.earliestMonth && state.currentYear === state.earliestYear ? state.earliestDate : 0;
 	            return Object.assign({}, state, {
 	                currentMonth: currentMonth,
-	                currentYear: currentYear,
-	                currentDay: currentDay
+	                currentDate: currentDate
 	            });
 	        default:
 	            return state;
@@ -20812,7 +20826,7 @@
 
 	function getEvents(year) {
 	    return fetch("/js/events/event-config-" + year + ".json").then(function (response) {
-	        return response.json();
+	        return response.status !== 404 ? response.json() : response;
 	    });
 	}
 
@@ -22350,7 +22364,7 @@
 
 /***/ },
 /* 183 */
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 
@@ -22362,10 +22376,17 @@
 	exports.eventClosed = eventClosed;
 	exports.currentEventUpdate = currentEventUpdate;
 	exports.currentMonthUpdate = currentMonthUpdate;
+
+	var _dateUtils = __webpack_require__(174);
+
 	var NEWYEARLYEVENTDATA = "NEWYEARLYEVENTDATA";
 
-	function yearlyEventData(data) {
-	    return { state: data, type: NEWYEARLYEVENTDATA };
+	function yearlyEventData(year) {
+	    return function (dispatch) {
+	        (0, _dateUtils.getEvents)(year).then(function (data) {
+	            return dispatch({ state: data.status ? "file not found" : data, type: NEWYEARLYEVENTDATA });
+	        });
+	    };
 	}
 
 	var EVENTSELECTED = "EVENTSELECTED";
@@ -22389,7 +22410,14 @@
 	var CURRENTMONTHUPDATE = "CURRENTMONTHUPDATE";
 
 	function currentMonthUpdate(data) {
-	    return { state: data, type: CURRENTMONTHUPDATE };
+	    return function (dispatch) {
+	        if (data.action === "next" && data.month === 11) {
+	            dispatch(yearlyEventData(++data.year));
+	        } else if (data.action === "prev" && data.month === 0) {
+	            dispatch(yearlyEventData(--data.year));
+	        }
+	        dispatch({ state: data, type: CURRENTMONTHUPDATE });
+	    };
 	}
 
 /***/ },
@@ -22802,9 +22830,7 @@
 	            unsubscribe: _calendarStore2.default.subscribe(_this.onStoreUpdate.bind(_this))
 	        };
 
-	        (0, _dateUtils.getEvents)(_this.state.currentYear).then(function (data) {
-	            return _calendarStore2.default.dispatch((0, _calendarActions.yearlyEventData)(data));
-	        });
+	        _calendarStore2.default.dispatch((0, _calendarActions.yearlyEventData)(_this.state.currentYear));
 	        return _this;
 	    }
 
@@ -22830,11 +22856,13 @@
 	            var eventInfoVisible = _CalendarStore$getSta2.eventInfoVisible;
 
 
+	            var events = eventData[currentMonth] ? eventData[currentMonth].events[currentEvent] : [];
+
 	            this.setState({
 	                currentDate: currentDate,
 	                currentMonth: currentMonth,
 	                currentYear: currentYear,
-	                events: eventData[currentMonth].events[currentEvent],
+	                events: events,
 	                currentEvent: currentEvent,
 	                selectedEventTime: selectedEventTime,
 	                selectedEventDesc: selectedEventDesc,
@@ -23074,12 +23102,12 @@
 	        ),
 	        _react2.default.createElement(
 	            "button",
-	            { onClick: props.bookEvent },
+	            { style: { display: props.visible ? "block" : "none" }, onClick: props.bookEvent },
 	            "Make a booking enquiry"
 	        ),
 	        _react2.default.createElement(
 	            "p",
-	            { className: "close", onClick: props.closeEventTip },
+	            { style: { display: props.visible ? "block" : "none" }, className: "close", onClick: props.closeEventTip },
 	            "Close"
 	        )
 	    );

@@ -7,6 +7,6 @@ export const EventTip = props =>
         <p className="event-desc">{ props.desc }</p>
         <p className="event-venue">{ props.venue }</p>
         <p className="event-time">{ props.time }</p>
-        <button onClick={ props.bookEvent }>Make a booking enquiry</button>
-        <p className="close" onClick={ props.closeEventTip }>Close</p>
+        <button style={{ display : props.visible ? "block" : "none" }} onClick={ props.bookEvent }>Make a booking enquiry</button>
+        <p style={{ display : props.visible ? "block" : "none" }} className="close" onClick={ props.closeEventTip }>Close</p>
     </span>;
