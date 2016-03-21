@@ -87,7 +87,7 @@ export default class CalendarBody extends Component {
             selectedEventDesc : selectedEventDesc,
             selectedEventShortdate : selectedEventShortdate,
             selectedEventVenue : selectedEventVenue,
-            eventInfoVisible : eventInfoVisible,
+            eventInfoVisible : eventInfoVisible
         });
     }
 
@@ -110,10 +110,11 @@ export default class CalendarBody extends Component {
 
     createListItem(index, currentDate, firstDayOfMonthIndex) {
         let time, desc, iconClass, eventClass, eventHandler, venue, monthsOfYear = months();
+        let date = CalendarBody.getDateListContent(index, firstDayOfMonthIndex);
 
-        if(this.state.events.length) {
-            let event = this.hasEvent(index);
-            if(event.length && currentDate <= index - 1) {
+        if(this.state.events.length && index >= firstDayOfMonthIndex) {
+            let event = this.hasEvent(date);
+            if(event.length && currentDate <= date) {
                 let details = event.pop();
                 time = details.time;
                 desc = details.desc;
@@ -134,15 +135,15 @@ export default class CalendarBody extends Component {
             data-time={ time }
             data-desc={ desc }
             data-venue={ venue }
-            data-date={ `${index - 1} ${monthsOfYear[this.state.currentMonth]} ${this.state.currentYear}` }
+            data-date={ `${ date } ${monthsOfYear[this.state.currentMonth]} ${this.state.currentYear}` }
             className={ classes }
             onClick={ eventHandler }>
-            <i className={ iconClass }></i> { CalendarBody.getDateListContent(index, firstDayOfMonthIndex) }
+            <i className={ iconClass }></i> { date }
         </li>);
     }
 
     hasEvent(index) {
-        return this.state.events.filter(event => index === parseInt(event.date) + 1);
+        return this.state.events.filter(event => index === parseInt(event.date));
     }
 
     bookEvent() {

@@ -21219,7 +21219,7 @@
 /* 176 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var require;var __WEBPACK_AMD_DEFINE_RESULT__;/* WEBPACK VAR INJECTION */(function(process, global, module) {/*!
+	var __WEBPACK_AMD_DEFINE_RESULT__;var require;/* WEBPACK VAR INJECTION */(function(process, global, module) {/*!
 	 * @overview es6-promise - a tiny implementation of Promises/A+.
 	 * @copyright Copyright (c) 2014 Yehuda Katz, Tom Dale, Stefan Penner and contributors (Conversion to ES6 API by Jake Archibald)
 	 * @license   Licensed under MIT license
@@ -22924,10 +22924,11 @@
 	                eventHandler = void 0,
 	                venue = void 0,
 	                monthsOfYear = (0, _dateUtils.months)();
+	            var date = CalendarBody.getDateListContent(index, firstDayOfMonthIndex);
 
-	            if (this.state.events.length) {
-	                var event = this.hasEvent(index);
-	                if (event.length && currentDate <= index - 1) {
+	            if (this.state.events.length && index >= firstDayOfMonthIndex) {
+	                var event = this.hasEvent(date);
+	                if (event.length && currentDate <= date) {
 	                    var details = event.pop();
 	                    time = details.time;
 	                    desc = details.desc;
@@ -22950,19 +22951,19 @@
 	                    "data-time": time,
 	                    "data-desc": desc,
 	                    "data-venue": venue,
-	                    "data-date": index - 1 + " " + monthsOfYear[this.state.currentMonth] + " " + this.state.currentYear,
+	                    "data-date": date + " " + monthsOfYear[this.state.currentMonth] + " " + this.state.currentYear,
 	                    className: classes,
 	                    onClick: eventHandler },
 	                _react2.default.createElement("i", { className: iconClass }),
 	                " ",
-	                CalendarBody.getDateListContent(index, firstDayOfMonthIndex)
+	                date
 	            );
 	        }
 	    }, {
 	        key: "hasEvent",
 	        value: function hasEvent(index) {
 	            return this.state.events.filter(function (event) {
-	                return index === parseInt(event.date) + 1;
+	                return index === parseInt(event.date);
 	            });
 	        }
 	    }, {
