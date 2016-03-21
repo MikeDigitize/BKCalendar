@@ -20815,7 +20815,7 @@
 	}
 
 	function getEvents(year) {
-	    return fetch("/js/events/event-config-" + year + ".json").then(function (response) {
+	    return fetch("./js/events/event-config-" + year + ".json").then(function (response) {
 	        return response.status !== 404 ? response.json() : response;
 	    });
 	}
