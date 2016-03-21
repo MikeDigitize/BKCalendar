@@ -22,20 +22,9 @@ let initialState = {
 export default function calendarData(state = initialState, action = {}) {
     let currentMonth, currentDate, currentYear, eventData;
     switch(action.type) {
-        case "NEWYEARLYEVENTDATA" :
-            eventData = action.state === "file not found" ? state.eventData : action.state;
-            currentYear = state.currentYear;
-            currentMonth = state.currentMonth;
-            if(action.state !== "file not found") {
-                currentYear = currentMonth === 0 ? ++state.currentYear : currentMonth === 11 ? --state.currentYear : state.currentYear;
-            }
-            else {
-                currentMonth = currentMonth === 0 ? 11 : 0;
-            }
+        case "LOADNEWCALENDARDATA" :
             return Object.assign({}, state, {
-                eventData : eventData,
-                currentYear : currentYear,
-                currentMonth : currentMonth
+                eventData : action.state
             });
         case "EVENTSELECTED" :
             return Object.assign({}, state, {
@@ -62,10 +51,12 @@ export default function calendarData(state = initialState, action = {}) {
             });
         case "CURRENTMONTHUPDATE" :
             currentMonth = action.state.action === "prev" ? --state.currentMonth : ++state.currentMonth;
+            currentYear = currentMonth === -1 ? --state.currentYear : currentMonth === 12 ? ++state.currentYear : state.currentYear;
             currentMonth = currentMonth === -1 ? 11 : currentMonth === 12 ? 0 : currentMonth;
             currentDate = currentMonth === state.earliestMonth && state.currentYear === state.earliestYear ? state.earliestDate : 0;
             return Object.assign({}, state, {
                 currentMonth : currentMonth,
+                currentYear : currentYear,
                 currentDate : currentDate
             });
         default :

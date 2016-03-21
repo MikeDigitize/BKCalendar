@@ -19788,7 +19788,6 @@
 	    _createClass(CalendarHeader, [{
 	        key: "onArrowClickPrev",
 	        value: function onArrowClickPrev() {
-	            console.log("prev!");
 	            if (!(this.state.currentMonth === this.state.earliestMonth && this.state.currentYear === this.state.earliestYear)) {
 	                _calendarStore2.default.dispatch((0, _calendarActions.currentMonthUpdate)({ action: "prev", month: this.state.currentMonth, year: this.state.currentYear }));
 	            }
@@ -19796,7 +19795,6 @@
 	    }, {
 	        key: "onArrowClickNext",
 	        value: function onArrowClickNext() {
-	            console.log("next!");
 	            _calendarStore2.default.dispatch((0, _calendarActions.currentMonthUpdate)({ action: "next", month: this.state.currentMonth, year: this.state.currentYear }));
 	        }
 	    }, {
@@ -20690,19 +20688,9 @@
 	        currentYear = void 0,
 	        eventData = void 0;
 	    switch (action.type) {
-	        case "NEWYEARLYEVENTDATA":
-	            eventData = action.state === "file not found" ? state.eventData : action.state;
-	            currentYear = state.currentYear;
-	            currentMonth = state.currentMonth;
-	            if (action.state !== "file not found") {
-	                currentYear = currentMonth === 0 ? ++state.currentYear : currentMonth === 11 ? --state.currentYear : state.currentYear;
-	            } else {
-	                currentMonth = currentMonth === 0 ? 11 : 0;
-	            }
+	        case "LOADNEWCALENDARDATA":
 	            return Object.assign({}, state, {
-	                eventData: eventData,
-	                currentYear: currentYear,
-	                currentMonth: currentMonth
+	                eventData: action.state
 	            });
 	        case "EVENTSELECTED":
 	            return Object.assign({}, state, {
@@ -20730,10 +20718,12 @@
 	            });
 	        case "CURRENTMONTHUPDATE":
 	            currentMonth = action.state.action === "prev" ? --state.currentMonth : ++state.currentMonth;
+	            currentYear = currentMonth === -1 ? --state.currentYear : currentMonth === 12 ? ++state.currentYear : state.currentYear;
 	            currentMonth = currentMonth === -1 ? 11 : currentMonth === 12 ? 0 : currentMonth;
 	            currentDate = currentMonth === state.earliestMonth && state.currentYear === state.earliestYear ? state.earliestDate : 0;
 	            return Object.assign({}, state, {
 	                currentMonth: currentMonth,
+	                currentYear: currentYear,
 	                currentDate: currentDate
 	            });
 	        default:
@@ -22371,20 +22361,21 @@
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
-	exports.yearlyEventData = yearlyEventData;
+	exports.loadInitialEventData = loadInitialEventData;
 	exports.eventSelected = eventSelected;
 	exports.eventClosed = eventClosed;
 	exports.currentEventUpdate = currentEventUpdate;
 	exports.currentMonthUpdate = currentMonthUpdate;
+	exports.loadYearlyEventData = loadYearlyEventData;
 
 	var _dateUtils = __webpack_require__(174);
 
-	var NEWYEARLYEVENTDATA = "NEWYEARLYEVENTDATA";
+	var LOADNEWCALENDARDATA = "LOADNEWCALENDARDATA";
 
-	function yearlyEventData(year) {
+	function loadInitialEventData(year) {
 	    return function (dispatch) {
-	        (0, _dateUtils.getEvents)(year).then(function (data) {
-	            return dispatch({ state: data.status ? "file not found" : data, type: NEWYEARLYEVENTDATA });
+	        return loadYearlyEventData(year).then(function (data) {
+	            return dispatch({ state: data, type: LOADNEWCALENDARDATA });
 	        });
 	    };
 	}
@@ -22412,12 +22403,31 @@
 	function currentMonthUpdate(data) {
 	    return function (dispatch) {
 	        if (data.action === "next" && data.month === 11) {
-	            dispatch(yearlyEventData(++data.year));
+	            loadYearlyEventData(++data.year).then(function (response) {
+	                if (response.status !== 404) {
+	                    dispatch({ state: response, type: LOADNEWCALENDARDATA });
+	                    dispatch({ state: data, type: CURRENTMONTHUPDATE });
+	                }
+	            });
 	        } else if (data.action === "prev" && data.month === 0) {
-	            dispatch(yearlyEventData(--data.year));
+	            loadYearlyEventData(--data.year).then(function (response) {
+	                if (response.status !== 404) {
+	                    dispatch({ state: response, type: LOADNEWCALENDARDATA });
+	                    dispatch({ state: data, type: CURRENTMONTHUPDATE });
+	                }
+	            });
+	        } else {
+	            dispatch({ state: data, type: CURRENTMONTHUPDATE });
 	        }
-	        dispatch({ state: data, type: CURRENTMONTHUPDATE });
 	    };
+	}
+
+	function loadYearlyEventData(year) {
+	    return new Promise(function (res, rej) {
+	        return (0, _dateUtils.getEvents)(year).then(function (data) {
+	            return res(data);
+	        });
+	    });
 	}
 
 /***/ },
@@ -22830,7 +22840,7 @@
 	            unsubscribe: _calendarStore2.default.subscribe(_this.onStoreUpdate.bind(_this))
 	        };
 
-	        _calendarStore2.default.dispatch((0, _calendarActions.yearlyEventData)(_this.state.currentYear));
+	        _calendarStore2.default.dispatch((0, _calendarActions.loadInitialEventData)(_this.state.currentYear));
 	        return _this;
 	    }
 

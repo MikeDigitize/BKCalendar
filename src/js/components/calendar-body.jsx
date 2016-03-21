@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import CalendarStore from "../store/calendar-store";
 import { getDate, getFullDate, getDaysInMonths, getDayIndex, getEvents, days, months } from "../utils/date-utils";
-import { yearlyEventData, eventSelected, eventClosed } from "../actions/calendar-actions";
+import { loadInitialEventData, eventSelected, eventClosed } from "../actions/calendar-actions";
 import { classNames, getElementPositionToContainer } from "../utils/dom-utils";
 import { EventTip } from "./event-tip";
 import { Overlay } from "./calendar-overlay";
@@ -36,7 +36,7 @@ export default class CalendarBody extends Component {
             unsubscribe : CalendarStore.subscribe(this.onStoreUpdate.bind(this))
         };
 
-        CalendarStore.dispatch(yearlyEventData(this.state.currentYear));
+        CalendarStore.dispatch(loadInitialEventData(this.state.currentYear));
     }
 
     componentWillUnmount() {

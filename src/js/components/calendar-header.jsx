@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import CalendarStore from "../store/calendar-store";
 import { months } from "../utils/date-utils";
 import { currentEventUpdate, currentMonthUpdate } from "../actions/calendar-actions";
-import { CalendarHeaderIcons, CalendarHeaderArrowsNext, CalendarHeaderArrowsPrev } from "./calendar-header-icons";
+import { CalendarHeaderIcons } from "./calendar-header-icons";
 import { CalendarHeaderDateSelect } from "./calendar-header-date-select";
 
 export default class CalendarHeader extends Component {
@@ -44,14 +44,12 @@ export default class CalendarHeader extends Component {
     }
     
     onArrowClickPrev() {
-        console.log("prev!");
         if(!(this.state.currentMonth === this.state.earliestMonth && this.state.currentYear === this.state.earliestYear)) {
             CalendarStore.dispatch(currentMonthUpdate({ action : "prev", month : this.state.currentMonth, year : this.state.currentYear }));
         }
     }
     
     onArrowClickNext() {
-        console.log("next!");
         CalendarStore.dispatch(currentMonthUpdate({ action : "next", month : this.state.currentMonth, year : this.state.currentYear }));
     }
 

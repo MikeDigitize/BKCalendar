@@ -1,12 +1,9 @@
 import { getEvents } from "../utils/date-utils";
 
-const NEWYEARLYEVENTDATA = "NEWYEARLYEVENTDATA";
+const LOADNEWCALENDARDATA = "LOADNEWCALENDARDATA";
 
-export function yearlyEventData(year) {
-    return dispatch => {
-        getEvents(year)
-            .then(data => dispatch({ state : data.status ? "file not found" : data, type : NEWYEARLYEVENTDATA }));
-    }
+export function loadInitialEventData(year) {
+    return dispatch => loadYearlyEventData(year).then(data => dispatch({ state : data, type : LOADNEWCALENDARDATA }));
 }
 
 const EVENTSELECTED = "EVENTSELECTED";
@@ -32,11 +29,29 @@ const CURRENTMONTHUPDATE = "CURRENTMONTHUPDATE";
 export function currentMonthUpdate(data) {
     return dispatch => {
         if(data.action === "next" && data.month === 11) {
-            dispatch(yearlyEventData(++data.year));
+            loadYearlyEventData(++data.year).then(response => {
+                if(response.status !== 404) {
+                    dispatch({ state : response, type : LOADNEWCALENDARDATA });
+                    dispatch({ state : data, type : CURRENTMONTHUPDATE });
+                }
+            });
         }
         else if(data.action === "prev" && data.month === 0) {
-            dispatch(yearlyEventData(--data.year));
+            loadYearlyEventData(--data.year).then(response => {
+                if(response.status !== 404) {
+                    dispatch({ state : response, type : LOADNEWCALENDARDATA });
+                    dispatch({ state : data, type : CURRENTMONTHUPDATE });
+                }
+            });
         }
-        dispatch({ state : data, type : CURRENTMONTHUPDATE });
+        else {
+            dispatch({ state : data, type : CURRENTMONTHUPDATE });
+        }
     };
+}
+
+export function loadYearlyEventData(year) {
+    return new Promise(function(res, rej) {
+        return getEvents(year).then(data => res(data));
+    });
 }
