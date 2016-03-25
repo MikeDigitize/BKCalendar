@@ -59,14 +59,14 @@
           "competition": "Europa League"
         },
         {
-          "date": "20",
-          "time": "12:30 - 14:00",
-          "desc": "West ham vs Chelsea",
-          "venue": "Stamford Bridge",
+          "date": "30",
+          "time": "17:30 - 19:30",
+          "desc": "Arsenal vs Man City",
+          "venue": "Etihad Stadium",
           "competition": "Premiership"
         },
         {
-          "date": "5",
+          "date": "28",
           "time": "12:30 - 14:00",
           "desc": "West ham vs Chelsea",
           "venue": "Stamford Bridge",
@@ -81,13 +81,18 @@
         }
       ],
       "cricket": [{
-        "date": "24",
+        "date": "30",
         "time": "19:45 - 21:45",
         "desc": "Lancashire vs Yorkshire",
         "venue": "Old Trafford",
         "competition": "County League"
       }],
-      "horse-racing": []
+      "horse-racing": [{
+        "date": "28",
+        "time": "10:00 - 21:30",
+        "desc": "Cheltenham Festival",
+        "venue": "Cheltenham "
+      }]
     }
   },
   {
