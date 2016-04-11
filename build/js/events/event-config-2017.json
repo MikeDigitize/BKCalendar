@@ -3,13 +3,15 @@
     "month" : "January",
     "events": {
       "rugby": [],
+      "misc" : [],
+      "music" : [],
       "football": [
         {
           "date": "17",
           "time": "19:45 - 21:45",
           "desc": "Man Utd vs Liverpool",
           "venue": "Old Trafford",
-          "competition": "Europa League"
+          "extra": "Europa League"
         }
       ],
       "cricket": [],
@@ -20,13 +22,15 @@
     "month" : "February",
     "events": {
       "rugby": [],
+      "misc" : [],
+      "music" : [],
       "football": [
         {
           "date": "17",
           "time": "19:45 - 21:45",
           "desc": "Man Utd vs Liverpool",
           "venue": "Old Trafford",
-          "competition": "Europa League"
+          "extra": "Europa League"
         }
       ],
       "cricket": [],
@@ -41,66 +45,265 @@
         "time": "19:45 - 21:45",
         "desc": "Wigan vs St Helens",
         "venue": "DW Stadium",
-        "competition": "Super League"
+        "extra": "Super League"
       },
         {
           "date": "27",
           "time": "19:30 - 21:30",
           "desc": "Leigh Centurions vs Salford Red Devils",
           "venue": "Leigh Sports Village",
-          "competition": "Super League"
+          "extra": "Super League"
         }],
+      "misc" : [],
+      "music" : [],
       "football": [
         {
           "date": "16",
           "time": "19:45 - 21:45",
           "desc": "Man Utd vs Liverpool",
           "venue": "Old Trafford",
-          "competition": "Europa League"
+          "extra": "Europa League"
         },
         {
-          "date": "20",
+          "date": "30",
+          "time": "17:30 - 19:30",
+          "desc": "Arsenal vs Man City",
+          "venue": "Etihad Stadium",
+          "extra": "Premiership"
+        },
+        {
+          "date": "28",
           "time": "12:30 - 14:00",
           "desc": "West ham vs Chelsea",
           "venue": "Stamford Bridge",
-          "competition": "Premiership"
-        },
-        {
-          "date": "5",
-          "time": "12:30 - 14:00",
-          "desc": "West ham vs Chelsea",
-          "venue": "Stamford Bridge",
-          "competition": "Premiership"
+          "extra": "Premiership"
         },
         {
           "date": "26",
           "time": "15:00 - 17:45",
           "desc": "Man Utd vs Liverpool",
           "venue": "Old Trafford",
-          "competition": "Premiership"
+          "extra": "Premiership"
         }
       ],
       "cricket": [{
-        "date": "24",
+        "date": "30",
         "time": "19:45 - 21:45",
         "desc": "Lancashire vs Yorkshire",
         "venue": "Old Trafford",
-        "competition": "County League"
+        "extra": "County League"
       }],
-      "horse-racing": []
+      "horse-racing": [{
+        "date": "28",
+        "time": "10:00 - 21:30",
+        "desc": "Cheltenham Festival",
+        "venue": "Cheltenham"
+      }]
     }
   },
   {
     "month" : "April",
     "events": {
       "rugby": [],
+      "misc" : [],
+      "music" : [{
+        "date": "16",
+        "time": "19:45 - 21:45",
+        "desc": "Adele the World Tour",
+        "venue": "M.E.N Arena",
+        "extra": "Blah blah"
+      }],
+      "football": [
+        {
+          "date": "16",
+          "time": "19:45 - 21:45",
+          "desc": "Man Utd vs Liverpool",
+          "venue": "Old Trafford",
+          "extra": "Europa League"
+        },
+        {
+          "date": "20",
+          "time": "12:30 - 14:00",
+          "desc": "West ham vs Chelsea",
+          "venue": "Stamford Bridge",
+          "extra": "Premiership"
+        },
+        {
+          "date": "5",
+          "time": "12:30 - 14:00",
+          "desc": "West ham vs Chelsea",
+          "venue": "Stamford Bridge",
+          "extra": "Premiership"
+        },
+        {
+          "date": "26",
+          "time": "15:00 - 17:45",
+          "desc": "Man Utd vs Liverpool",
+          "venue": "Old Trafford",
+          "extra": "Premiership"
+        }
+      ],
+      "cricket": [{
+        "date": "30",
+        "time": "19:45 - 21:45",
+        "desc": "Lancashire vs Yorkshire",
+        "venue": "Old Trafford",
+        "extra": "County League"
+      }],
+      "horse-racing": [{
+        "date": "28",
+        "time": "10:00 - 21:30",
+        "desc": "Cheltenham Festival",
+        "venue": "Cheltenham"
+
+      }]
+    }
+  },
+  {
+    "month" : "May",
+    "events": {
+      "rugby": [],
+      "misc" : [],
+      "music" : [],
       "football": [
         {
           "date": "17",
           "time": "19:45 - 21:45",
           "desc": "Man Utd vs Liverpool",
           "venue": "Old Trafford",
-          "competition": "Europa League"
+          "extra": "Europa League"
+        }
+      ],
+      "cricket": [],
+      "horse-racing": []
+    }
+  },
+  {
+    "month" : "June",
+    "events": {
+      "rugby": [],
+      "misc" : [],
+      "music" : [],
+      "football": [
+        {
+          "date": "17",
+          "time": "19:45 - 21:45",
+          "desc": "Man Utd vs Liverpool",
+          "venue": "Old Trafford",
+          "extra": "Europa League"
+        }
+      ],
+      "cricket": [],
+      "horse-racing": []
+    }
+  },
+  {
+    "month" : "July",
+    "events": {
+      "rugby": [],
+      "misc" : [],
+      "football": [
+        {
+          "date": "17",
+          "time": "19:45 - 21:45",
+          "desc": "Man Utd vs Liverpool",
+          "venue": "Old Trafford",
+          "extra": "Europa League"
+        }
+      ],
+      "cricket": [],
+      "horse-racing": []
+    }
+  },
+  {
+    "month" : "August",
+    "events": {
+      "rugby": [],
+      "misc" : [],
+      "music" : [],
+      "football": [
+        {
+          "date": "17",
+          "time": "19:45 - 21:45",
+          "desc": "Man Utd vs Liverpool",
+          "venue": "Old Trafford",
+          "extra": "Europa League"
+        }
+      ],
+      "cricket": [],
+      "horse-racing": []
+    }
+  },
+  {
+    "month" : "September",
+    "events": {
+      "rugby": [],
+      "misc" : [],
+      "music" : [],
+      "football": [
+        {
+          "date": "17",
+          "time": "19:45 - 21:45",
+          "desc": "Man Utd vs Liverpool",
+          "venue": "Old Trafford",
+          "extra": "Europa League"
+        }
+      ],
+      "cricket": [],
+      "horse-racing": []
+    }
+  },
+  {
+    "month" : "October",
+    "events": {
+      "rugby": [],
+      "misc" : [],
+      "music" : [],
+      "football": [
+        {
+          "date": "31",
+          "time": "19:45 - 21:45",
+          "desc": "Man Utd vs Liverpool",
+          "venue": "Old Trafford",
+          "extra": "Europa League"
+        }
+      ],
+      "cricket": [],
+      "horse-racing": []
+    }
+  },
+  {
+    "month" : "November",
+    "events": {
+      "rugby": [],
+      "misc" : [],
+      "music" : [],
+      "football": [
+        {
+          "date": "31",
+          "time": "19:45 - 21:45",
+          "desc": "Man Utd vs Liverpool",
+          "venue": "Old Trafford",
+          "extra": "Europa League"
+        }
+      ],
+      "cricket": [],
+      "horse-racing": []
+    }
+  },
+  {
+    "month" : "December",
+    "events": {
+      "rugby": [],
+      "misc" : [],
+      "music" : [],
+      "football": [
+        {
+          "date": "31",
+          "time": "19:45 - 21:45",
+          "desc": "Man Utd vs Liverpool",
+          "venue": "Old Trafford",
+          "extra": "Europa League"
         }
       ],
       "cricket": [],

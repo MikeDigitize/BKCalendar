@@ -19998,6 +19998,7 @@
 	    selectedEventDesc: "",
 	    selectedEventShortdate: "",
 	    selectedEventVenue: "",
+	    selectedEventExtraDetail: "",
 	    eventInfoVisible: false,
 	    eventData: []
 	};
@@ -20020,6 +20021,7 @@
 	                selectedEventDesc: action.state.getAttribute("data-desc"),
 	                selectedEventTime: action.state.getAttribute("data-time"),
 	                selectedEventVenue: action.state.getAttribute("data-venue"),
+	                selectedEventExtraDetail: action.state.getAttribute("data-extra-detail"),
 	                selectedEventShortdate: action.state.getAttribute("data-date"),
 	                eventInfoVisible: true
 	            });
@@ -20029,6 +20031,7 @@
 	                selectedEventTime: "",
 	                selectedEventShortdate: "",
 	                selectedEventVenue: "",
+	                selectedEventExtraDetail: "",
 	                eventInfoVisible: false
 	            });
 	        case "CURRENTEVENTUPDATE":
@@ -22294,6 +22297,7 @@
 	        var selectedEventDesc = _CalendarStore$getSta.selectedEventDesc;
 	        var selectedEventVenue = _CalendarStore$getSta.selectedEventVenue;
 	        var selectedEventShortdate = _CalendarStore$getSta.selectedEventShortdate;
+	        var selectedEventExtraDetail = _CalendarStore$getSta.selectedEventExtraDetail;
 	        var eventInfoVisible = _CalendarStore$getSta.eventInfoVisible;
 
 
@@ -22307,6 +22311,7 @@
 	            selectedEventDesc: selectedEventDesc,
 	            selectedEventVenue: selectedEventVenue,
 	            selectedEventShortdate: selectedEventShortdate,
+	            selectedEventExtraDetail: selectedEventExtraDetail,
 	            eventInfoVisible: eventInfoVisible,
 	            unsubscribe: _calendarStore2.default.subscribe(_this.onStoreUpdate.bind(_this))
 	        };
@@ -22334,6 +22339,7 @@
 	            var selectedEventDesc = _CalendarStore$getSta2.selectedEventDesc;
 	            var selectedEventVenue = _CalendarStore$getSta2.selectedEventVenue;
 	            var selectedEventShortdate = _CalendarStore$getSta2.selectedEventShortdate;
+	            var selectedEventExtraDetail = _CalendarStore$getSta2.selectedEventExtraDetail;
 	            var eventInfoVisible = _CalendarStore$getSta2.eventInfoVisible;
 
 
@@ -22349,6 +22355,7 @@
 	                selectedEventDesc: selectedEventDesc,
 	                selectedEventShortdate: selectedEventShortdate,
 	                selectedEventVenue: selectedEventVenue,
+	                selectedEventExtraDetail: selectedEventExtraDetail,
 	                eventInfoVisible: eventInfoVisible
 	            });
 	        }
@@ -22393,6 +22400,7 @@
 	                iconClass = void 0,
 	                eventClass = void 0,
 	                eventHandler = void 0,
+	                extra = void 0,
 	                venue = void 0,
 	                monthsOfYear = (0, _dateUtils.months)();
 	            var date = CalendarBody.getDateListContent(index, firstDayOfMonthIndex);
@@ -22404,6 +22412,7 @@
 	                    time = details.time;
 	                    desc = details.desc;
 	                    venue = details.venue;
+	                    extra = details.extra;
 	                    iconClass = "bullet-event";
 	                    eventClass = "date-event";
 	                    eventHandler = this.onDateClick.bind(this);
@@ -22422,6 +22431,7 @@
 	                    "data-time": time,
 	                    "data-desc": desc,
 	                    "data-venue": venue,
+	                    "data-extra-detail": extra,
 	                    "data-date": date + " " + monthsOfYear[this.state.currentMonth] + " " + this.state.currentYear,
 	                    className: classes,
 	                    onClick: eventHandler },
@@ -22497,6 +22507,7 @@
 	                    time: this.state.selectedEventTime,
 	                    desc: this.state.selectedEventDesc,
 	                    date: this.state.selectedEventShortdate,
+	                    extra: this.state.selectedEventExtraDetail,
 	                    venue: this.state.selectedEventVenue,
 	                    visible: this.state.eventInfoVisible,
 	                    bookEvent: this.bookEvent.bind(this),
@@ -22576,6 +22587,11 @@
 	            "p",
 	            { className: "event-venue" },
 	            props.venue
+	        ),
+	        _react2.default.createElement(
+	            "p",
+	            { className: "event-extra-detail" },
+	            props.extra
 	        ),
 	        _react2.default.createElement(
 	            "p",

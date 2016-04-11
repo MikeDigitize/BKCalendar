@@ -163,6 +163,7 @@ section li {
     box-sizing: border-box;
     text-align: center;
     height: 0;
+    box-shadow: 2px 2px 4px rgba(0,0,0,0.5);
 }
 .event-tip.show-tip {
     opacity: 1;

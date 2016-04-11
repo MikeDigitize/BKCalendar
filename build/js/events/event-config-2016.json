@@ -11,7 +11,7 @@
           "time": "19:45 - 21:45",
           "desc": "Man Utd vs Liverpool",
           "venue": "Old Trafford",
-          "competition": "Europa League"
+          "extra": "Europa League"
         }
       ],
       "cricket": [],
@@ -30,7 +30,7 @@
           "time": "19:45 - 21:45",
           "desc": "Man Utd vs Liverpool",
           "venue": "Old Trafford",
-          "competition": "Europa League"
+          "extra": "Europa League"
         }
       ],
       "cricket": [],
@@ -45,14 +45,14 @@
         "time": "19:45 - 21:45",
         "desc": "Wigan vs St Helens",
         "venue": "DW Stadium",
-        "competition": "Super League"
+        "extra": "Super League"
       },
         {
           "date": "27",
           "time": "19:30 - 21:30",
           "desc": "Leigh Centurions vs Salford Red Devils",
           "venue": "Leigh Sports Village",
-          "competition": "Super League"
+          "extra": "Super League"
         }],
       "misc" : [],
       "music" : [],
@@ -62,28 +62,28 @@
           "time": "19:45 - 21:45",
           "desc": "Man Utd vs Liverpool",
           "venue": "Old Trafford",
-          "competition": "Europa League"
+          "extra": "Europa League"
         },
         {
           "date": "30",
           "time": "17:30 - 19:30",
           "desc": "Arsenal vs Man City",
           "venue": "Etihad Stadium",
-          "competition": "Premiership"
+          "extra": "Premiership"
         },
         {
           "date": "28",
           "time": "12:30 - 14:00",
           "desc": "West ham vs Chelsea",
           "venue": "Stamford Bridge",
-          "competition": "Premiership"
+          "extra": "Premiership"
         },
         {
           "date": "26",
           "time": "15:00 - 17:45",
           "desc": "Man Utd vs Liverpool",
           "venue": "Old Trafford",
-          "competition": "Premiership"
+          "extra": "Premiership"
         }
       ],
       "cricket": [{
@@ -91,13 +91,13 @@
         "time": "19:45 - 21:45",
         "desc": "Lancashire vs Yorkshire",
         "venue": "Old Trafford",
-        "competition": "County League"
+        "extra": "County League"
       }],
       "horse-racing": [{
         "date": "28",
         "time": "10:00 - 21:30",
         "desc": "Cheltenham Festival",
-        "venue": "Cheltenham "
+        "venue": "Cheltenham"
       }]
     }
   },
@@ -111,7 +111,7 @@
         "time": "19:45 - 21:45",
         "desc": "Adele the World Tour",
         "venue": "M.E.N Arena",
-        "competition": "Europa League"
+        "extra": "Blah blah"
       }],
       "football": [
         {
@@ -119,32 +119,44 @@
           "time": "19:45 - 21:45",
           "desc": "Man Utd vs Liverpool",
           "venue": "Old Trafford",
-          "competition": "Europa League"
+          "extra": "Europa League"
         },
         {
           "date": "20",
           "time": "12:30 - 14:00",
           "desc": "West ham vs Chelsea",
           "venue": "Stamford Bridge",
-          "competition": "Premiership"
+          "extra": "Premiership"
         },
         {
           "date": "5",
           "time": "12:30 - 14:00",
           "desc": "West ham vs Chelsea",
           "venue": "Stamford Bridge",
-          "competition": "Premiership"
+          "extra": "Premiership"
         },
         {
           "date": "26",
           "time": "15:00 - 17:45",
           "desc": "Man Utd vs Liverpool",
           "venue": "Old Trafford",
-          "competition": "Premiership"
+          "extra": "Premiership"
         }
       ],
-      "cricket": [],
-      "horse-racing": []
+      "cricket": [{
+        "date": "30",
+        "time": "19:45 - 21:45",
+        "desc": "Lancashire vs Yorkshire",
+        "venue": "Old Trafford",
+        "extra": "County League"
+      }],
+      "horse-racing": [{
+        "date": "28",
+        "time": "10:00 - 21:30",
+        "desc": "Cheltenham Festival",
+        "venue": "Cheltenham"
+
+      }]
     }
   },
   {
@@ -159,7 +171,7 @@
           "time": "19:45 - 21:45",
           "desc": "Man Utd vs Liverpool",
           "venue": "Old Trafford",
-          "competition": "Europa League"
+          "extra": "Europa League"
         }
       ],
       "cricket": [],
@@ -178,7 +190,7 @@
           "time": "19:45 - 21:45",
           "desc": "Man Utd vs Liverpool",
           "venue": "Old Trafford",
-          "competition": "Europa League"
+          "extra": "Europa League"
         }
       ],
       "cricket": [],
@@ -196,7 +208,7 @@
           "time": "19:45 - 21:45",
           "desc": "Man Utd vs Liverpool",
           "venue": "Old Trafford",
-          "competition": "Europa League"
+          "extra": "Europa League"
         }
       ],
       "cricket": [],
@@ -215,7 +227,7 @@
           "time": "19:45 - 21:45",
           "desc": "Man Utd vs Liverpool",
           "venue": "Old Trafford",
-          "competition": "Europa League"
+          "extra": "Europa League"
         }
       ],
       "cricket": [],
@@ -234,7 +246,7 @@
           "time": "19:45 - 21:45",
           "desc": "Man Utd vs Liverpool",
           "venue": "Old Trafford",
-          "competition": "Europa League"
+          "extra": "Europa League"
         }
       ],
       "cricket": [],
@@ -253,7 +265,7 @@
           "time": "19:45 - 21:45",
           "desc": "Man Utd vs Liverpool",
           "venue": "Old Trafford",
-          "competition": "Europa League"
+          "extra": "Europa League"
         }
       ],
       "cricket": [],
@@ -272,7 +284,7 @@
           "time": "19:45 - 21:45",
           "desc": "Man Utd vs Liverpool",
           "venue": "Old Trafford",
-          "competition": "Europa League"
+          "extra": "Europa League"
         }
       ],
       "cricket": [],
@@ -291,7 +303,7 @@
           "time": "19:45 - 21:45",
           "desc": "Man Utd vs Liverpool",
           "venue": "Old Trafford",
-          "competition": "Europa League"
+          "extra": "Europa League"
         }
       ],
       "cricket": [],
