@@ -52,21 +52,21 @@
         }],
       "football": [
         {
-          "date": "16",
+          "date": "27",
           "time": "19:45 - 21:45",
           "desc": "Man Utd vs Liverpool",
           "venue": "Old Trafford",
           "competition": "Europa League"
         },
         {
-          "date": "20",
+          "date": "28",
           "time": "12:30 - 14:00",
-          "desc": "West ham vs Chelsea",
+          "desc": "Man City vs Chelsea",
           "venue": "Stamford Bridge",
           "competition": "Premiership"
         },
         {
-          "date": "5",
+          "date": "30",
           "time": "12:30 - 14:00",
           "desc": "West ham vs Chelsea",
           "venue": "Stamford Bridge",
@@ -75,7 +75,7 @@
         {
           "date": "26",
           "time": "15:00 - 17:45",
-          "desc": "Man Utd vs Liverpool",
+          "desc": "Man Utd vs Arsenal",
           "venue": "Old Trafford",
           "competition": "Premiership"
         }
