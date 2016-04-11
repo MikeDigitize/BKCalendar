@@ -3,6 +3,8 @@
     "month" : "January",
     "events": {
       "rugby": [],
+      "misc" : [],
+      "music" : [],
       "football": [
         {
           "date": "17",
@@ -20,6 +22,8 @@
     "month" : "February",
     "events": {
       "rugby": [],
+      "misc" : [],
+      "music" : [],
       "football": [
         {
           "date": "17",
@@ -50,6 +54,8 @@
           "venue": "Leigh Sports Village",
           "competition": "Super League"
         }],
+      "misc" : [],
+      "music" : [],
       "football": [
         {
           "date": "16",
@@ -99,6 +105,14 @@
     "month" : "April",
     "events": {
       "rugby": [],
+      "misc" : [],
+      "music" : [{
+        "date": "16",
+        "time": "19:45 - 21:45",
+        "desc": "Adele the World Tour",
+        "venue": "M.E.N Arena",
+        "competition": "Europa League"
+      }],
       "football": [
         {
           "date": "16",
@@ -137,6 +151,8 @@
     "month" : "May",
     "events": {
       "rugby": [],
+      "misc" : [],
+      "music" : [],
       "football": [
         {
           "date": "17",
@@ -154,6 +170,8 @@
     "month" : "June",
     "events": {
       "rugby": [],
+      "misc" : [],
+      "music" : [],
       "football": [
         {
           "date": "17",
@@ -171,6 +189,7 @@
     "month" : "July",
     "events": {
       "rugby": [],
+      "misc" : [],
       "football": [
         {
           "date": "17",
@@ -188,6 +207,8 @@
     "month" : "August",
     "events": {
       "rugby": [],
+      "misc" : [],
+      "music" : [],
       "football": [
         {
           "date": "17",
@@ -205,6 +226,8 @@
     "month" : "September",
     "events": {
       "rugby": [],
+      "misc" : [],
+      "music" : [],
       "football": [
         {
           "date": "17",
@@ -222,6 +245,8 @@
     "month" : "October",
     "events": {
       "rugby": [],
+      "misc" : [],
+      "music" : [],
       "football": [
         {
           "date": "31",
@@ -239,6 +264,8 @@
     "month" : "November",
     "events": {
       "rugby": [],
+      "misc" : [],
+      "music" : [],
       "football": [
         {
           "date": "31",
@@ -256,6 +283,8 @@
     "month" : "December",
     "events": {
       "rugby": [],
+      "misc" : [],
+      "music" : [],
       "football": [
         {
           "date": "31",

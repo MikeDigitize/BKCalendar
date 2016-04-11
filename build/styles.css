@@ -204,14 +204,6 @@ section li {
 .event-tip .close:hover {
     text-decoration: underline;
 }
-/*.event-tip:before {*/
-    /*content: "▾";*/
-    /*position: absolute;*/
-    /*font-size: 52px;*/
-    /*color: #249991;*/
-    /*bottom: -25px;*/
-    /*left: 42%;*/
-/*}*/
 .overlay {
     width: 100%;
     height: 100%;

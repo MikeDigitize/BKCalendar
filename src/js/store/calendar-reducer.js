@@ -45,7 +45,7 @@ export default function calendarData(state = initialState, action = {}) {
         case "CURRENTEVENTUPDATE" :
             return Object.assign({}, state, {
                 currentEvent : Array.from(action.state.classList)
-                                    .filter(cls => ["football", "cricket", "rugby", "horse-racing"]
+                                    .filter(cls => ["football", "cricket", "rugby", "horse-racing", "music", "misc"]
                                     .find(evt => evt === cls))
                                     .pop()
             });
