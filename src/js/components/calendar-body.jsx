@@ -20,6 +20,7 @@ export default class CalendarBody extends Component {
             selectedEventDesc,
             selectedEventVenue,
             selectedEventShortdate,
+            selectedEventExtraDetail,
             eventInfoVisible } = CalendarStore.getState().calendarData;
 
         this.state = {
@@ -32,6 +33,7 @@ export default class CalendarBody extends Component {
             selectedEventDesc : selectedEventDesc,
             selectedEventVenue : selectedEventVenue,
             selectedEventShortdate : selectedEventShortdate,
+            selectedEventExtraDetail : selectedEventExtraDetail,
             eventInfoVisible : eventInfoVisible,
             unsubscribe : CalendarStore.subscribe(this.onStoreUpdate.bind(this))
         };
@@ -73,6 +75,7 @@ export default class CalendarBody extends Component {
             selectedEventDesc,
             selectedEventVenue,
             selectedEventShortdate,
+            selectedEventExtraDetail,
             eventInfoVisible } = CalendarStore.getState().calendarData;
 
         let events = eventData[currentMonth] ? eventData[currentMonth].events[currentEvent] : [];
@@ -87,6 +90,7 @@ export default class CalendarBody extends Component {
             selectedEventDesc : selectedEventDesc,
             selectedEventShortdate : selectedEventShortdate,
             selectedEventVenue : selectedEventVenue,
+            selectedEventExtraDetail : selectedEventExtraDetail,
             eventInfoVisible : eventInfoVisible
         });
     }
@@ -109,7 +113,7 @@ export default class CalendarBody extends Component {
     }
 
     createListItem(index, currentDate, firstDayOfMonthIndex) {
-        let time, desc, iconClass, eventClass, eventHandler, venue, monthsOfYear = months();
+        let time, desc, iconClass, eventClass, eventHandler, extra, venue, monthsOfYear = months();
         let date = CalendarBody.getDateListContent(index, firstDayOfMonthIndex);
 
         if(this.state.events.length && index >= firstDayOfMonthIndex) {
@@ -119,6 +123,7 @@ export default class CalendarBody extends Component {
                 time = details.time;
                 desc = details.desc;
                 venue = details.venue;
+                extra = details.extra;
                 iconClass = "bullet-event";
                 eventClass = "date-event";
                 eventHandler = this.onDateClick.bind(this);
@@ -135,6 +140,7 @@ export default class CalendarBody extends Component {
             data-time={ time }
             data-desc={ desc }
             data-venue={ venue }
+            data-extra-detail={ extra }
             data-date={ `${ date } ${monthsOfYear[this.state.currentMonth]} ${this.state.currentYear}` }
             className={ classes }
             onClick={ eventHandler }>
@@ -188,6 +194,7 @@ export default class CalendarBody extends Component {
                     time={ this.state.selectedEventTime }
                     desc={ this.state.selectedEventDesc }
                     date={ this.state.selectedEventShortdate }
+                    extra={ this.state.selectedEventExtraDetail }
                     venue={ this.state.selectedEventVenue }
                     visible={ this.state.eventInfoVisible }
                     bookEvent={ this.bookEvent.bind(this) }

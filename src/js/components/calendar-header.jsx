@@ -74,7 +74,7 @@ export default class CalendarHeader extends Component {
                     onArrowClickNext={ this.onArrowClickNext.bind(this) }
                     onArrowClickPrev={ this.onArrowClickPrev.bind(this) }
                 />
-                <p className="title">Sporting Event Calendar</p>
+                <p className="title">Event Calendar</p>
                 <p className="selected-event">{ this.state.currentEvent }</p>
                 <CalendarHeaderIcons
                     currentEvent={ this.state.currentEvent }

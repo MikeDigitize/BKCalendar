@@ -1,4 +1,5 @@
 var path = require("path");
+var webpack = require("webpack");
 module.exports = {
     context : path.resolve("src"),
     entry : {
@@ -20,5 +21,12 @@ module.exports = {
             loader: "babel-loader"
         }]
     },
+    plugins: [
+        new webpack.DefinePlugin({
+            "process.env": {
+                "NODE_ENV": JSON.stringify("production")
+            }
+        })
+    ],
     watch : true
 };

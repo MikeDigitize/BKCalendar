@@ -163,6 +163,7 @@ section li {
     box-sizing: border-box;
     text-align: center;
     height: 0;
+    box-shadow: 2px 2px 4px rgba(0,0,0,0.5);
 }
 .event-tip.show-tip {
     opacity: 1;
@@ -204,14 +205,6 @@ section li {
 .event-tip .close:hover {
     text-decoration: underline;
 }
-/*.event-tip:before {*/
-    /*content: "▾";*/
-    /*position: absolute;*/
-    /*font-size: 52px;*/
-    /*color: #249991;*/
-    /*bottom: -25px;*/
-    /*left: 42%;*/
-/*}*/
 .overlay {
     width: 100%;
     height: 100%;

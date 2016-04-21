@@ -15,6 +15,7 @@ let initialState = {
     selectedEventDesc : "",
     selectedEventShortdate : "",
     selectedEventVenue : "",
+    selectedEventExtraDetail : "",
     eventInfoVisible : false,
     eventData : []
 };
@@ -31,6 +32,7 @@ export default function calendarData(state = initialState, action = {}) {
                 selectedEventDesc : action.state.getAttribute("data-desc"),
                 selectedEventTime : action.state.getAttribute("data-time"),
                 selectedEventVenue : action.state.getAttribute("data-venue"),
+                selectedEventExtraDetail : action.state.getAttribute("data-extra-detail"),
                 selectedEventShortdate : action.state.getAttribute("data-date"),
                 eventInfoVisible : true
             });
@@ -40,12 +42,13 @@ export default function calendarData(state = initialState, action = {}) {
                 selectedEventTime : "",
                 selectedEventShortdate : "",
                 selectedEventVenue : "",
+                selectedEventExtraDetail : "",
                 eventInfoVisible : false
             });
         case "CURRENTEVENTUPDATE" :
             return Object.assign({}, state, {
                 currentEvent : Array.from(action.state.classList)
-                                    .filter(cls => ["football", "cricket", "rugby", "horse-racing"]
+                                    .filter(cls => ["football", "cricket", "rugby", "horse-racing", "music", "misc"]
                                     .find(evt => evt === cls))
                                     .pop()
             });
