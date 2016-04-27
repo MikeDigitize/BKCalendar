@@ -105,7 +105,12 @@
     "month" : "April",
     "events": {
       "rugby": [],
-      "misc" : [],
+      "misc" : [{
+          "date": "29",
+          "time": "19:45 - 21:45",
+          "desc": "Adele Live",
+          "venue": "M.E.N. Arena"
+        }],
       "music" : [{
         "date": "16",
         "time": "19:45 - 21:45",

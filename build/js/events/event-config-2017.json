@@ -228,6 +228,13 @@
           "desc": "Man Utd vs Liverpool",
           "venue": "Old Trafford",
           "extra": "Europa League"
+        },
+        {
+          "date": "19",
+          "time": "19:45 - 21:45",
+          "desc": "Everton vs Liverpool",
+          "venue": "Goodison Park",
+          "extra": "Premiership"
         }
       ],
       "cricket": [],

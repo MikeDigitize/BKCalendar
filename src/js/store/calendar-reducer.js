@@ -2,6 +2,7 @@ import { getCurrentDate as now } from "../utils/date-utils";
 import "../utils/array-find-polyfill";
 import "../utils/array-from-polyfill";
 import "../utils/object-assign-polyfill";
+import "../utils/classlist-polyfill";
 
 let initialState = {
     currentDate : now().date,
