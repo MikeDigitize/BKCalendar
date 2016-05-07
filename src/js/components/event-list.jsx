@@ -13,14 +13,11 @@ export default class EventList extends Component {
 				className="event-list-item"
 				key={ `evt-list-${i}` }
 				data-event-index={i}
-				onClick={ this.logDetails.bind(this) }>
+				data-event-list-data= { JSON.stringify(this.props.eventListData) }
+				onClick={ this.props.closeEventList.bind(this) }>
 					{ event.desc }
 			</a>
 		);
-	}
-
-	logDetails(evt) {
-		this.props.closeEventList();
 	}
 
 	render() {

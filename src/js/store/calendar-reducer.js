@@ -32,11 +32,11 @@ export default function calendarData(state = initialState, action = {}) {
             });
         case "EVENTSELECTED" :
             return Object.assign({}, state, {
-                selectedEventDesc : action.state.getAttribute("data-desc"),
-                selectedEventTime : action.state.getAttribute("data-time"),
-                selectedEventVenue : action.state.getAttribute("data-venue"),
-                selectedEventExtraDetail : action.state.getAttribute("data-extra-detail"),
-                selectedEventShortdate : action.state.getAttribute("data-date"),
+                selectedEventDesc : action.state.selectedEventDesc,
+                selectedEventTime : action.state.selectedEventTime,
+                selectedEventVenue : action.state.selectedEventVenue,
+                selectedEventExtraDetail : action.state.selectedEventExtraDetail,
+                selectedEventShortdate : action.state.selectedEventShortdate,
                 eventListData : [],
                 eventInfoVisible : true,
                 eventListVisible : false

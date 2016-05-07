@@ -20025,11 +20025,11 @@
 	            });
 	        case "EVENTSELECTED":
 	            return Object.assign({}, state, {
-	                selectedEventDesc: action.state.getAttribute("data-desc"),
-	                selectedEventTime: action.state.getAttribute("data-time"),
-	                selectedEventVenue: action.state.getAttribute("data-venue"),
-	                selectedEventExtraDetail: action.state.getAttribute("data-extra-detail"),
-	                selectedEventShortdate: action.state.getAttribute("data-date"),
+	                selectedEventDesc: action.state.selectedEventDesc,
+	                selectedEventTime: action.state.selectedEventTime,
+	                selectedEventVenue: action.state.selectedEventVenue,
+	                selectedEventExtraDetail: action.state.selectedEventExtraDetail,
+	                selectedEventShortdate: action.state.selectedEventShortdate,
 	                eventListData: [],
 	                eventInfoVisible: true,
 	                eventListVisible: false
@@ -22365,6 +22365,7 @@
 	exports.getElement = getElement;
 	exports.getPositionToWindow = getPositionToWindow;
 	exports.getWindowPosition = getWindowPosition;
+	exports.getEventDataFromElement = getEventDataFromElement;
 	function classNames() {
 	    var hasOwn = {}.hasOwnProperty;
 	    var classes = [];
@@ -22402,8 +22403,6 @@
 	    var elX = getPositionToWindow(el).left;
 	    var elY = getPositionToWindow(el).top;
 
-	    console.log(conY, elY);
-
 	    var x = elX - conX;
 	    var y = elY - conY;
 
@@ -22430,6 +22429,17 @@
 	    var winY = window.scrollY || window.pageYOffset;
 
 	    return { winX: winX, winY: winY };
+	}
+
+	function getEventDataFromElement(target) {
+	    var data = target.dataset || target;
+	    return {
+	        selectedEventDesc: data.desc,
+	        selectedEventTime: data.time,
+	        selectedEventVenue: data.venue,
+	        selectedEventExtraDetail: data.extraDetail,
+	        selectedEventShortdate: data.date
+	    };
 	}
 
 /***/ },
@@ -22630,10 +22640,11 @@
 	        value: function onDateClick(evt) {
 	            if (!this.state.eventInfoVisible) {
 	                var target = CalendarBody.getSelectedEventListItem(evt);
+	                var data = (0, _domUtils.getEventDataFromElement)(target);
 	                if (target.hasAttribute("data-multiple-events")) {
 	                    _calendarStore2.default.dispatch((0, _calendarActions.displayEventList)(target));
 	                } else {
-	                    _calendarStore2.default.dispatch((0, _calendarActions.eventSelected)(target));
+	                    _calendarStore2.default.dispatch((0, _calendarActions.eventSelected)(data));
 	                }
 	            }
 	        }
@@ -22678,12 +22689,17 @@
 	                venue = void 0,
 	                monthsOfYear = (0, _dateUtils.months)();
 	            var date = CalendarBody.getDateListContent(index, firstDayOfMonthIndex);
+	            var shortdate = date + " " + monthsOfYear[this.state.currentMonth] + " " + this.state.currentYear;
 
 	            if (this.state.events.length && index >= firstDayOfMonthIndex) {
 	                var event = this.hasEvent(date);
 	                if (event.length && currentDate <= date) {
 	                    if (event.length > 1) {
 	                        multipleEvents = true;
+	                        event = event.map(function (data) {
+	                            data.date = shortdate;
+	                            return data;
+	                        });
 	                        multipleEventDetails = JSON.stringify(event);
 	                    }
 	                    var details = event.slice(eventIndex, ++eventIndex).pop();
@@ -22712,7 +22728,7 @@
 	                    "data-desc": desc,
 	                    "data-venue": venue,
 	                    "data-extra-detail": extra,
-	                    "data-date": date + " " + monthsOfYear[this.state.currentMonth] + " " + this.state.currentYear,
+	                    "data-date": shortdate,
 	                    className: classes,
 	                    onClick: eventHandler },
 	                _react2.default.createElement("i", { className: iconClass }),
@@ -22739,8 +22755,14 @@
 	        }
 	    }, {
 	        key: "closeEventList",
-	        value: function closeEventList() {
+	        value: function closeEventList(evt) {
 	            _calendarStore2.default.dispatch((0, _calendarActions.eventListClosed)());
+	            var target = evt.target || evt.srcElement;
+	            var data = target.dataset;
+	            var selectedEventIndex = Number(target.dataset.eventIndex);
+	            var selectedEventData = JSON.parse(target.dataset.eventListData);
+	            var eventData = (0, _domUtils.getEventDataFromElement)(selectedEventData[selectedEventIndex]);
+	            _calendarStore2.default.dispatch((0, _calendarActions.eventSelected)(eventData));
 	        }
 	    }, {
 	        key: "getCalendarHeight",
@@ -22783,7 +22805,6 @@
 	    }, {
 	        key: "render",
 	        value: function render() {
-	            console.log("render", this.state.eventListData, this.state.eventInfoVisible, this.state.eventListVisible);
 	            return _react2.default.createElement(
 	                "section",
 	                { role: "main", id: "calendar-app" },
@@ -22950,15 +22971,11 @@
 							className: "event-list-item",
 							key: "evt-list-" + i,
 							"data-event-index": i,
-							onClick: _this2.logDetails.bind(_this2) },
+							"data-event-list-data": JSON.stringify(_this2.props.eventListData),
+							onClick: _this2.props.closeEventList.bind(_this2) },
 						event.desc
 					);
 				});
-			}
-		}, {
-			key: "logDetails",
-			value: function logDetails(evt) {
-				this.props.closeEventList();
 			}
 		}, {
 			key: "render",

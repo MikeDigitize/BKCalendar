@@ -67,3 +67,4 @@ const DISPLAYEVENTlIST = "DISPLAYEVENTlIST";
 export function displayEventList(data) {
     return { state : data, type : DISPLAYEVENTlIST }
 }
+

@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import CalendarStore from "../store/calendar-store";
 import { getDate, getFullDate, getDaysInMonths, getDayIndex, getEvents, days, months } from "../utils/date-utils";
 import { loadInitialEventData, eventSelected, eventClosed, eventListClosed, displayEventList } from "../actions/calendar-actions";
-import { classNames, getElementPositionToContainer } from "../utils/dom-utils";
+import { classNames, getElementPositionToContainer, getEventDataFromElement } from "../utils/dom-utils";
 import { EventTip } from "./event-tip";
 import EventList from "./event-list";
 import { Overlay } from "./calendar-overlay";
@@ -107,11 +107,12 @@ export default class CalendarBody extends Component {
     onDateClick(evt) {
         if(!this.state.eventInfoVisible){
             let target = CalendarBody.getSelectedEventListItem(evt);
+            let data = getEventDataFromElement(target);
             if(target.hasAttribute("data-multiple-events")) {
                 CalendarStore.dispatch(displayEventList(target));
             }
             else {
-                CalendarStore.dispatch(eventSelected(target));
+                CalendarStore.dispatch(eventSelected(data));
             }
 
         }
@@ -130,12 +131,17 @@ export default class CalendarBody extends Component {
     createListItem(index, currentDate, firstDayOfMonthIndex, eventIndex = 0) {
         let time, desc, multipleEvents, multipleEventDetails, iconClass, eventClass, eventHandler, extra, venue, monthsOfYear = months();
         let date = CalendarBody.getDateListContent(index, firstDayOfMonthIndex);
+        let shortdate = `${ date } ${monthsOfYear[this.state.currentMonth]} ${this.state.currentYear}`;
 
         if(this.state.events.length && index >= firstDayOfMonthIndex) {
             let event = this.hasEvent(date);
             if(event.length && currentDate <= date) {
                 if(event.length > 1) {
                     multipleEvents = true;
+                    event = event.map(data => {
+                        data.date = shortdate;
+                        return data;
+                    });
                     multipleEventDetails = JSON.stringify(event);
                 }
                 let details = event.slice(eventIndex, ++eventIndex).pop();
@@ -162,7 +168,7 @@ export default class CalendarBody extends Component {
             data-desc={ desc }
             data-venue={ venue }
             data-extra-detail={ extra }
-            data-date={ `${ date } ${monthsOfYear[this.state.currentMonth]} ${this.state.currentYear}` }
+            data-date={ shortdate }
             className={ classes }
             onClick={ eventHandler }>
             <i className={ iconClass }></i> { date }
@@ -181,8 +187,14 @@ export default class CalendarBody extends Component {
         CalendarStore.dispatch(eventClosed());
     }
 
-    closeEventList() {
+    closeEventList(evt) {
         CalendarStore.dispatch(eventListClosed());
+        let target = evt.target || evt.srcElement;
+        let data = target.dataset;
+        let selectedEventIndex = Number(target.dataset.eventIndex);
+        let selectedEventData = JSON.parse(target.dataset.eventListData);
+        let eventData = getEventDataFromElement(selectedEventData[selectedEventIndex]);
+        CalendarStore.dispatch(eventSelected(eventData));
     }
 
     getCalendarHeight() {
@@ -211,7 +223,6 @@ export default class CalendarBody extends Component {
     }
 
     render() {
-        console.log("render", this.state.eventListData, this.state.eventInfoVisible, this.state.eventListVisible);
         return (
             <section role="main" id="calendar-app">
                 { this.createHeader() }

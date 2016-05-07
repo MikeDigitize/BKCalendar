@@ -35,8 +35,6 @@ export function getElementPositionToContainer(container, element) {
     let elX = getPositionToWindow(el).left;
     let elY = getPositionToWindow(el).top;
 
-    console.log(conY, elY);
-
     let x = elX - conX;
     let y = elY - conY;
 
@@ -66,4 +64,15 @@ export function getWindowPosition() {
 
     return { winX, winY };
 
+}
+
+export function getEventDataFromElement(target) {
+    let data = target.dataset || target;
+    return {
+        selectedEventDesc : data.desc,
+        selectedEventTime : data.time,
+        selectedEventVenue : data.venue,
+        selectedEventExtraDetail : data.extraDetail,
+        selectedEventShortdate : data.date,
+    };
 }
