@@ -18,6 +18,8 @@ let initialState = {
     selectedEventVenue : "",
     selectedEventExtraDetail : "",
     eventInfoVisible : false,
+    eventListVisible : false,
+    eventListData : [],
     eventData : []
 };
 
@@ -35,7 +37,14 @@ export default function calendarData(state = initialState, action = {}) {
                 selectedEventVenue : action.state.getAttribute("data-venue"),
                 selectedEventExtraDetail : action.state.getAttribute("data-extra-detail"),
                 selectedEventShortdate : action.state.getAttribute("data-date"),
-                eventInfoVisible : true
+                eventListData : [],
+                eventInfoVisible : true,
+                eventListVisible : false
+            });
+        case "DISPLAYEVENTlIST" :
+            return Object.assign({}, state, {
+                eventListVisible : true,
+                eventListData : JSON.parse(action.state.getAttribute("data-multiple-event-details"))
             });
         case "EVENTCLOSED" :
             return Object.assign({}, state, {
@@ -44,7 +53,9 @@ export default function calendarData(state = initialState, action = {}) {
                 selectedEventShortdate : "",
                 selectedEventVenue : "",
                 selectedEventExtraDetail : "",
-                eventInfoVisible : false
+                eventInfoVisible : false,
+                eventListVisible : false,
+                eventListData : []
             });
         case "CURRENTEVENTUPDATE" :
             return Object.assign({}, state, {

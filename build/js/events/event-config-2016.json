@@ -168,7 +168,12 @@
     "month" : "May",
     "events": {
       "rugby": [],
-      "misc" : [],
+      "misc" : [{
+        "date": "22",
+        "time": "19:45 - 21:45",
+        "desc": "Art Show",
+        "venue": "Lowry"
+      }],
       "music" : [],
       "football": [
         {
@@ -177,6 +182,13 @@
           "desc": "Man Utd vs Liverpool",
           "venue": "Old Trafford",
           "extra": "Europa League"
+        },
+        {
+          "date": "17",
+          "time": "19:45 - 21:45",
+          "desc": "Everton vs Leicester",
+          "venue": "Goodison Park",
+          "extra": "Premierleague"
         }
       ],
       "cricket": [],

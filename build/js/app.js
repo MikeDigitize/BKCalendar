@@ -20005,6 +20005,8 @@
 	    selectedEventVenue: "",
 	    selectedEventExtraDetail: "",
 	    eventInfoVisible: false,
+	    eventListVisible: false,
+	    eventListData: [],
 	    eventData: []
 	};
 
@@ -20028,7 +20030,14 @@
 	                selectedEventVenue: action.state.getAttribute("data-venue"),
 	                selectedEventExtraDetail: action.state.getAttribute("data-extra-detail"),
 	                selectedEventShortdate: action.state.getAttribute("data-date"),
-	                eventInfoVisible: true
+	                eventListData: [],
+	                eventInfoVisible: true,
+	                eventListVisible: false
+	            });
+	        case "DISPLAYEVENTlIST":
+	            return Object.assign({}, state, {
+	                eventListVisible: true,
+	                eventListData: JSON.parse(action.state.getAttribute("data-multiple-event-details"))
 	            });
 	        case "EVENTCLOSED":
 	            return Object.assign({}, state, {
@@ -20037,7 +20046,9 @@
 	                selectedEventShortdate: "",
 	                selectedEventVenue: "",
 	                selectedEventExtraDetail: "",
-	                eventInfoVisible: false
+	                eventInfoVisible: false,
+	                eventListVisible: false,
+	                eventListData: []
 	            });
 	        case "CURRENTEVENTUPDATE":
 	            return Object.assign({}, state, {
@@ -20550,7 +20561,7 @@
 /* 171 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var require;var __WEBPACK_AMD_DEFINE_RESULT__;/* WEBPACK VAR INJECTION */(function(process, global, module) {/*!
+	var __WEBPACK_AMD_DEFINE_RESULT__;var require;/* WEBPACK VAR INJECTION */(function(process, global, module) {/*!
 	 * @overview es6-promise - a tiny implementation of Promises/A+.
 	 * @copyright Copyright (c) 2014 Yehuda Katz, Tom Dale, Stefan Penner and contributors (Conversion to ES6 API by Jake Archibald)
 	 * @license   Licensed under MIT license
@@ -22014,6 +22025,7 @@
 	exports.currentEventUpdate = currentEventUpdate;
 	exports.currentMonthUpdate = currentMonthUpdate;
 	exports.loadYearlyEventData = loadYearlyEventData;
+	exports.displayEventList = displayEventList;
 
 	var _dateUtils = __webpack_require__(169);
 
@@ -22075,6 +22087,12 @@
 	            return res(data);
 	        });
 	    });
+	}
+
+	var DISPLAYEVENTlIST = "DISPLAYEVENTlIST";
+
+	function displayEventList(data) {
+	    return { state: data, type: DISPLAYEVENTlIST };
 	}
 
 /***/ },
@@ -22523,6 +22541,8 @@
 	        var selectedEventShortdate = _CalendarStore$getSta.selectedEventShortdate;
 	        var selectedEventExtraDetail = _CalendarStore$getSta.selectedEventExtraDetail;
 	        var eventInfoVisible = _CalendarStore$getSta.eventInfoVisible;
+	        var eventListVisible = _CalendarStore$getSta.eventListVisible;
+	        var eventListData = _CalendarStore$getSta.eventListData;
 
 
 	        _this.state = {
@@ -22537,6 +22557,8 @@
 	            selectedEventShortdate: selectedEventShortdate,
 	            selectedEventExtraDetail: selectedEventExtraDetail,
 	            eventInfoVisible: eventInfoVisible,
+	            eventListVisible: eventListVisible,
+	            eventListData: eventListData,
 	            unsubscribe: _calendarStore2.default.subscribe(_this.onStoreUpdate.bind(_this))
 	        };
 
@@ -22565,6 +22587,8 @@
 	            var selectedEventShortdate = _CalendarStore$getSta2.selectedEventShortdate;
 	            var selectedEventExtraDetail = _CalendarStore$getSta2.selectedEventExtraDetail;
 	            var eventInfoVisible = _CalendarStore$getSta2.eventInfoVisible;
+	            var eventListVisible = _CalendarStore$getSta2.eventListVisible;
+	            var eventListData = _CalendarStore$getSta2.eventListData;
 
 
 	            var events = eventData[currentMonth] ? eventData[currentMonth].events[currentEvent] : [];
@@ -22580,7 +22604,9 @@
 	                selectedEventShortdate: selectedEventShortdate,
 	                selectedEventVenue: selectedEventVenue,
 	                selectedEventExtraDetail: selectedEventExtraDetail,
-	                eventInfoVisible: eventInfoVisible
+	                eventInfoVisible: eventInfoVisible,
+	                eventListVisible: eventListVisible,
+	                eventListData: eventListData
 	            });
 	        }
 	    }, {
@@ -22588,7 +22614,11 @@
 	        value: function onDateClick(evt) {
 	            if (!this.state.eventInfoVisible) {
 	                var target = CalendarBody.getSelectedEventListItem(evt);
-	                _calendarStore2.default.dispatch((0, _calendarActions.eventSelected)(target));
+	                if (target.hasAttribute("data-multiple-events")) {
+	                    _calendarStore2.default.dispatch((0, _calendarActions.displayEventList)(target));
+	                } else {
+	                    _calendarStore2.default.dispatch((0, _calendarActions.eventSelected)(target));
+	                }
 	            }
 	        }
 	    }, {
@@ -22619,8 +22649,12 @@
 	    }, {
 	        key: "createListItem",
 	        value: function createListItem(index, currentDate, firstDayOfMonthIndex) {
+	            var eventIndex = arguments.length <= 3 || arguments[3] === undefined ? 0 : arguments[3];
+
 	            var time = void 0,
 	                desc = void 0,
+	                multipleEvents = void 0,
+	                multipleEventDetails = void 0,
 	                iconClass = void 0,
 	                eventClass = void 0,
 	                eventHandler = void 0,
@@ -22632,7 +22666,11 @@
 	            if (this.state.events.length && index >= firstDayOfMonthIndex) {
 	                var event = this.hasEvent(date);
 	                if (event.length && currentDate <= date) {
-	                    var details = event.pop();
+	                    if (event.length > 1) {
+	                        multipleEvents = true;
+	                        multipleEventDetails = JSON.stringify(event);
+	                    }
+	                    var details = event.slice(eventIndex, ++eventIndex).pop();
 	                    time = details.time;
 	                    desc = details.desc;
 	                    venue = details.venue;
@@ -22653,6 +22691,8 @@
 	                {
 	                    key: "date" + index,
 	                    "data-time": time,
+	                    "data-multiple-events": multipleEvents,
+	                    "data-multiple-event-details": multipleEventDetails,
 	                    "data-desc": desc,
 	                    "data-venue": venue,
 	                    "data-extra-detail": extra,
@@ -22722,6 +22762,7 @@
 	    }, {
 	        key: "render",
 	        value: function render() {
+	            console.log("render", this.state.eventListData, this.state.eventInfoVisible, this.state.eventListVisible);
 	            return _react2.default.createElement(
 	                "section",
 	                { role: "main", id: "calendar-app" },

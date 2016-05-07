@@ -55,3 +55,9 @@ export function loadYearlyEventData(year) {
         return getEvents(year).then(data => res(data));
     });
 }
+
+const DISPLAYEVENTlIST = "DISPLAYEVENTlIST";
+
+export function displayEventList(data) {
+    return { state : data, type : DISPLAYEVENTlIST }
+}
