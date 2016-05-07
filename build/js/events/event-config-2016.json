@@ -170,6 +170,16 @@
       "rugby": [],
       "misc" : [{
         "date": "22",
+        "time": "16:30 - 23:30",
+        "desc": "Culinary Experts",
+        "venue": "Posh restaurant"
+      }, {
+        "date": "22",
+        "time": "15:00 - 22:00",
+        "desc": "Labour Conference",
+        "venue": "GMEX"
+      }, {
+        "date": "22",
         "time": "19:45 - 21:45",
         "desc": "Art Show",
         "venue": "Lowry"
@@ -191,7 +201,20 @@
           "extra": "Premierleague"
         }
       ],
-      "cricket": [],
+      "cricket": [{
+        "date": "19",
+        "time": "19:45 - 21:45",
+        "desc": "Lancashire vs Yorkshire",
+        "venue": "Old Trafford",
+        "extra": "League One"
+      },
+        {
+          "date": "23",
+          "time": "19:45 - 21:45",
+          "desc": "Lancashire vs Southport",
+          "venue": "Some ground",
+          "extra": "No one cares"
+        }],
       "horse-racing": []
     }
   },

@@ -190,9 +190,8 @@ export default class CalendarBody extends Component {
     closeEventList(evt) {
         CalendarStore.dispatch(eventListClosed());
         let target = evt.target || evt.srcElement;
-        let data = target.dataset;
-        let selectedEventIndex = Number(target.dataset.eventIndex);
-        let selectedEventData = JSON.parse(target.dataset.eventListData);
+        let selectedEventIndex = Number(target.getAttribute("data-event-index"));
+        let selectedEventData = JSON.parse(target.getAttribute("data-event-list-data"));
         let eventData = getEventDataFromElement(selectedEventData[selectedEventIndex]);
         CalendarStore.dispatch(eventSelected(eventData));
     }

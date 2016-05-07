@@ -22432,14 +22432,23 @@
 	}
 
 	function getEventDataFromElement(target) {
-	    var data = target.dataset || target;
-	    return {
-	        selectedEventDesc: data.desc,
-	        selectedEventTime: data.time,
-	        selectedEventVenue: data.venue,
-	        selectedEventExtraDetail: data.extraDetail,
-	        selectedEventShortdate: data.date
-	    };
+	    if (target instanceof HTMLElement) {
+	        return {
+	            selectedEventDesc: target.getAttribute("data-desc"),
+	            selectedEventTime: target.getAttribute("data-time"),
+	            selectedEventVenue: target.getAttribute("data-venue"),
+	            selectedEventExtraDetail: target.getAttribute("data-extra-detail"),
+	            selectedEventShortdate: target.getAttribute("data-date")
+	        };
+	    } else {
+	        return {
+	            selectedEventDesc: target.desc,
+	            selectedEventTime: target.time,
+	            selectedEventVenue: target.venue,
+	            selectedEventExtraDetail: target.extraDetail,
+	            selectedEventShortdate: target.date
+	        };
+	    }
 	}
 
 /***/ },
@@ -22758,9 +22767,8 @@
 	        value: function closeEventList(evt) {
 	            _calendarStore2.default.dispatch((0, _calendarActions.eventListClosed)());
 	            var target = evt.target || evt.srcElement;
-	            var data = target.dataset;
-	            var selectedEventIndex = Number(target.dataset.eventIndex);
-	            var selectedEventData = JSON.parse(target.dataset.eventListData);
+	            var selectedEventIndex = Number(target.getAttribute("data-event-index"));
+	            var selectedEventData = JSON.parse(target.getAttribute("data-event-list-data"));
 	            var eventData = (0, _domUtils.getEventDataFromElement)(selectedEventData[selectedEventIndex]);
 	            _calendarStore2.default.dispatch((0, _calendarActions.eventSelected)(eventData));
 	        }
