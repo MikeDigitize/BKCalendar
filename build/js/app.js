@@ -20037,6 +20037,7 @@
 	        case "DISPLAYEVENTlIST":
 	            return Object.assign({}, state, {
 	                eventListVisible: true,
+	                selectedEventShortdate: action.state.getAttribute("data-date"),
 	                eventListData: JSON.parse(action.state.getAttribute("data-multiple-event-details"))
 	            });
 	        case "EVENTCLOSED":
@@ -20049,6 +20050,10 @@
 	                eventInfoVisible: false,
 	                eventListVisible: false,
 	                eventListData: []
+	            });
+	        case "EVENTLISTCLOSED":
+	            return Object.assign({}, state, {
+	                eventListVisible: false
 	            });
 	        case "CURRENTEVENTUPDATE":
 	            return Object.assign({}, state, {
@@ -20561,7 +20566,7 @@
 /* 171 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var __WEBPACK_AMD_DEFINE_RESULT__;var require;/* WEBPACK VAR INJECTION */(function(process, global, module) {/*!
+	var require;var __WEBPACK_AMD_DEFINE_RESULT__;/* WEBPACK VAR INJECTION */(function(process, global, module) {/*!
 	 * @overview es6-promise - a tiny implementation of Promises/A+.
 	 * @copyright Copyright (c) 2014 Yehuda Katz, Tom Dale, Stefan Penner and contributors (Conversion to ES6 API by Jake Archibald)
 	 * @license   Licensed under MIT license
@@ -22022,6 +22027,7 @@
 	exports.loadInitialEventData = loadInitialEventData;
 	exports.eventSelected = eventSelected;
 	exports.eventClosed = eventClosed;
+	exports.eventListClosed = eventListClosed;
 	exports.currentEventUpdate = currentEventUpdate;
 	exports.currentMonthUpdate = currentMonthUpdate;
 	exports.loadYearlyEventData = loadYearlyEventData;
@@ -22049,6 +22055,12 @@
 
 	function eventClosed() {
 	    return { type: EVENTCLOSED };
+	}
+
+	var EVENTLISTCLOSED = "EVENTLISTCLOSED";
+
+	function eventListClosed() {
+	    return { type: EVENTLISTCLOSED };
 	}
 
 	var CURRENTEVENTUPDATE = "CURRENTEVENTUPDATE";
@@ -22510,7 +22522,11 @@
 
 	var _eventTip = __webpack_require__(185);
 
-	var _calendarOverlay = __webpack_require__(186);
+	var _eventList = __webpack_require__(186);
+
+	var _eventList2 = _interopRequireDefault(_eventList);
+
+	var _calendarOverlay = __webpack_require__(187);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -22722,6 +22738,11 @@
 	            _calendarStore2.default.dispatch((0, _calendarActions.eventClosed)());
 	        }
 	    }, {
+	        key: "closeEventList",
+	        value: function closeEventList() {
+	            _calendarStore2.default.dispatch((0, _calendarActions.eventListClosed)());
+	        }
+	    }, {
 	        key: "getCalendarHeight",
 	        value: function getCalendarHeight() {
 	            var container = document.querySelector("#calendar-app"),
@@ -22768,6 +22789,12 @@
 	                { role: "main", id: "calendar-app" },
 	                this.createHeader(),
 	                this.createDates(),
+	                _react2.default.createElement(_eventList2.default, {
+	                    visible: this.state.eventListVisible,
+	                    eventListData: this.state.eventListData,
+	                    date: this.state.selectedEventShortdate,
+	                    closeEventList: this.closeEventTip.bind(this)
+	                }),
 	                _react2.default.createElement(_eventTip.EventTip, {
 	                    time: this.state.selectedEventTime,
 	                    desc: this.state.selectedEventDesc,
@@ -22878,6 +22905,86 @@
 
 /***/ },
 /* 186 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _domUtils = __webpack_require__(182);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var EventList = function (_Component) {
+		_inherits(EventList, _Component);
+
+		function EventList(props) {
+			_classCallCheck(this, EventList);
+
+			return _possibleConstructorReturn(this, Object.getPrototypeOf(EventList).call(this));
+		}
+
+		_createClass(EventList, [{
+			key: "createEventButtons",
+			value: function createEventButtons() {
+				var _this2 = this;
+
+				return this.props.eventListData.map(function (event, i) {
+					return _react2.default.createElement(
+						"button",
+						{ key: "evt-list-" + i, "data-event-index": i, onClick: _this2.logDetails.bind(_this2) },
+						event.desc
+					);
+				});
+			}
+		}, {
+			key: "logDetails",
+			value: function logDetails() {
+				console.log(evt.target.getAttribute("data-event-index"));
+			}
+		}, {
+			key: "render",
+			value: function render() {
+				return _react2.default.createElement(
+					"span",
+					{ className: (0, _domUtils.classNames)({ "event-list": true, "show-list": this.props.visible }) },
+					_react2.default.createElement(
+						"p",
+						null,
+						"Available events on ",
+						this.props.date
+					),
+					this.createEventButtons(),
+					_react2.default.createElement(
+						"p",
+						{ style: { display: this.props.visible ? "block" : "none" }, className: "close", onClick: this.props.closeEventList },
+						"Close"
+					)
+				);
+			}
+		}]);
+
+		return EventList;
+	}(_react.Component);
+
+	exports.default = EventList;
+
+/***/ },
+/* 187 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";

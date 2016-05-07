@@ -1,9 +1,10 @@
 import React, { Component } from "react";
 import CalendarStore from "../store/calendar-store";
 import { getDate, getFullDate, getDaysInMonths, getDayIndex, getEvents, days, months } from "../utils/date-utils";
-import { loadInitialEventData, eventSelected, eventClosed, displayEventList } from "../actions/calendar-actions";
+import { loadInitialEventData, eventSelected, eventClosed, eventListClosed, displayEventList } from "../actions/calendar-actions";
 import { classNames, getElementPositionToContainer } from "../utils/dom-utils";
 import { EventTip } from "./event-tip";
+import EventList from "./event-list";
 import { Overlay } from "./calendar-overlay";
 
 export default class CalendarBody extends Component {
@@ -154,7 +155,7 @@ export default class CalendarBody extends Component {
         });
 
         return (<li
-            key={ "date" + index }
+            key={ `date${index}` }
             data-time={ time }
             data-multiple-events= { multipleEvents }
             data-multiple-event-details= { multipleEventDetails }
@@ -178,6 +179,10 @@ export default class CalendarBody extends Component {
 
     closeEventTip() {
         CalendarStore.dispatch(eventClosed());
+    }
+
+    closeEventList() {
+        CalendarStore.dispatch(eventListClosed());
     }
 
     getCalendarHeight() {
@@ -211,6 +216,12 @@ export default class CalendarBody extends Component {
             <section role="main" id="calendar-app">
                 { this.createHeader() }
                 { this.createDates() }
+                <EventList
+                    visible= { this.state.eventListVisible }
+                    eventListData = { this.state.eventListData }
+                    date={ this.state.selectedEventShortdate }
+                    closeEventList = { this.closeEventTip.bind(this) }
+                />
                 <EventTip
                     time={ this.state.selectedEventTime }
                     desc={ this.state.selectedEventDesc }

@@ -44,6 +44,7 @@ export default function calendarData(state = initialState, action = {}) {
         case "DISPLAYEVENTlIST" :
             return Object.assign({}, state, {
                 eventListVisible : true,
+                selectedEventShortdate : action.state.getAttribute("data-date"),
                 eventListData : JSON.parse(action.state.getAttribute("data-multiple-event-details"))
             });
         case "EVENTCLOSED" :
@@ -56,6 +57,10 @@ export default function calendarData(state = initialState, action = {}) {
                 eventInfoVisible : false,
                 eventListVisible : false,
                 eventListData : []
+            });
+        case "EVENTLISTCLOSED" :
+            return Object.assign({}, state, {
+                eventListVisible : false
             });
         case "CURRENTEVENTUPDATE" :
             return Object.assign({}, state, {

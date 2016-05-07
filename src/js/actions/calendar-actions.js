@@ -18,6 +18,12 @@ export function eventClosed() {
     return { type: EVENTCLOSED }
 }
 
+const EVENTLISTCLOSED = "EVENTLISTCLOSED";
+
+export function eventListClosed() {
+    return { type: EVENTLISTCLOSED }
+}
+
 const CURRENTEVENTUPDATE = "CURRENTEVENTUPDATE";
 
 export function currentEventUpdate(data) {
