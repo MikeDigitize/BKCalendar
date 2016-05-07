@@ -9,18 +9,24 @@ export default class EventList extends Component {
 
 	createEventButtons() {
 		return this.props.eventListData.map((event, i) =>
-			<button key={ `evt-list-${i}` } data-event-index={i} onClick={ this.logDetails.bind(this) }>{ event.desc }</button>
+			<a
+				className="event-list-item"
+				key={ `evt-list-${i}` }
+				data-event-index={i}
+				onClick={ this.logDetails.bind(this) }>
+					{ event.desc }
+			</a>
 		);
 	}
 
-	logDetails() {
-		console.log(evt.target.getAttribute("data-event-index"));
+	logDetails(evt) {
+		this.props.closeEventList();
 	}
 
 	render() {
 		return (
 			<span className={ classNames({ "event-list" : true, "show-list" : this.props.visible }) }>
-				<p>Available events on { this.props.date }</p>
+				<p className="event-list-title">Available events on <span className="event-list-date">{ this.props.date }</span></p>
 				{ this.createEventButtons() }
 				<p style={{ display : this.props.visible ? "block" : "none" }} className="close" onClick={ this.props.closeEventList }>Close</p>
 			</span>

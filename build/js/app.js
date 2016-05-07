@@ -20566,7 +20566,7 @@
 /* 171 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var require;var __WEBPACK_AMD_DEFINE_RESULT__;/* WEBPACK VAR INJECTION */(function(process, global, module) {/*!
+	var __WEBPACK_AMD_DEFINE_RESULT__;var require;/* WEBPACK VAR INJECTION */(function(process, global, module) {/*!
 	 * @overview es6-promise - a tiny implementation of Promises/A+.
 	 * @copyright Copyright (c) 2014 Yehuda Katz, Tom Dale, Stefan Penner and contributors (Conversion to ES6 API by Jake Archibald)
 	 * @license   Licensed under MIT license
@@ -22793,7 +22793,7 @@
 	                    visible: this.state.eventListVisible,
 	                    eventListData: this.state.eventListData,
 	                    date: this.state.selectedEventShortdate,
-	                    closeEventList: this.closeEventTip.bind(this)
+	                    closeEventList: this.closeEventList.bind(this)
 	                }),
 	                _react2.default.createElement(_eventTip.EventTip, {
 	                    time: this.state.selectedEventTime,
@@ -22945,16 +22945,20 @@
 
 				return this.props.eventListData.map(function (event, i) {
 					return _react2.default.createElement(
-						"button",
-						{ key: "evt-list-" + i, "data-event-index": i, onClick: _this2.logDetails.bind(_this2) },
+						"a",
+						{
+							className: "event-list-item",
+							key: "evt-list-" + i,
+							"data-event-index": i,
+							onClick: _this2.logDetails.bind(_this2) },
 						event.desc
 					);
 				});
 			}
 		}, {
 			key: "logDetails",
-			value: function logDetails() {
-				console.log(evt.target.getAttribute("data-event-index"));
+			value: function logDetails(evt) {
+				this.props.closeEventList();
 			}
 		}, {
 			key: "render",
@@ -22964,9 +22968,13 @@
 					{ className: (0, _domUtils.classNames)({ "event-list": true, "show-list": this.props.visible }) },
 					_react2.default.createElement(
 						"p",
-						null,
+						{ className: "event-list-title" },
 						"Available events on ",
-						this.props.date
+						_react2.default.createElement(
+							"span",
+							{ className: "event-list-date" },
+							this.props.date
+						)
 					),
 					this.createEventButtons(),
 					_react2.default.createElement(

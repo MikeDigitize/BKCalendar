@@ -220,7 +220,7 @@ export default class CalendarBody extends Component {
                     visible= { this.state.eventListVisible }
                     eventListData = { this.state.eventListData }
                     date={ this.state.selectedEventShortdate }
-                    closeEventList = { this.closeEventTip.bind(this) }
+                    closeEventList = { this.closeEventList.bind(this) }
                 />
                 <EventTip
                     time={ this.state.selectedEventTime }
