@@ -5,6 +5,10 @@
     border: 1px solid #ededed;
 }
 
+#bke-calendar #calendar-app p {
+    margin-bottom: 18px !important;
+}
+
 #bke-calendar #calendar-app {
     position: relative;
 }
@@ -158,6 +162,11 @@
     height: 0;
     box-shadow: 2px 2px 4px rgba(0,0,0,0.5);
 }
+
+#bke-calendar .event-tip p, #bke-calendar .event-list p {
+    margin-bottom: 20px;
+}
+
 #bke-calendar .event-tip.show-tip, #bke-calendar .event-list.show-list {
     opacity: 1;
     height: auto;
