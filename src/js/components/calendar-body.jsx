@@ -180,7 +180,7 @@ export default class CalendarBody extends Component {
     }
 
     bookEvent() {
-        window.location = `http://google.co.uk?event=${this.state.selectedEventDesc}&month=${this.state.currentMonth}&year=${this.state.currentYear}`;
+        window.location = `${document.URL.substr(0,document.URL.lastIndexOf('/'))}/contact.html?event=${this.state.selectedEventDesc}&date=${this.state.selectedEventShortdate}&time=${this.state.selectedEventTime}`;
     }
 
     closeEventTip() {
