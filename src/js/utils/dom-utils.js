@@ -67,8 +67,10 @@ export function getWindowPosition() {
 }
 
 export function getEventDataFromElement(target) {
+    console.log(target);
+    let results;
     if(target instanceof HTMLElement) {
-        return {
+        results = {
             selectedEventDesc : target.getAttribute("data-desc"),
             selectedEventTime : target.getAttribute("data-time"),
             selectedEventVenue : target.getAttribute("data-venue"),
@@ -77,7 +79,7 @@ export function getEventDataFromElement(target) {
         };
     }
     else {
-        return {
+        results = {
             selectedEventDesc : target.desc,
             selectedEventTime : target.time,
             selectedEventVenue : target.venue,
@@ -85,4 +87,6 @@ export function getEventDataFromElement(target) {
             selectedEventShortdate : target.date
         };
     }
+    console.log(results, target);
+    return results;
 }
